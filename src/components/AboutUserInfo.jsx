@@ -82,7 +82,7 @@ export default function AboutUserInfo() {
               variant="determinate"
               value="50"
               color="secondary"
-              sx={{ height: 15 }}
+              sx={{ height: 15, borderRadius: 1 }}
             />
           </Box>
           <Box>
