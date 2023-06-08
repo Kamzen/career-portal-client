@@ -32,11 +32,11 @@ const Home = () => {
             <Typography fontSize={18} fontWeight="bolder">
               Tiyisela Themba Makamu
             </Typography>
-            <Typography fontSize={12}>ID : 9804046210080</Typography>
             <Typography fontSize={12}>Email: kamzen1994@gmail.com</Typography>
             <Typography fontSize={12}>Contact: +27 797126016</Typography>
             <Typography fontSize={12}>Occupation: Unemployed</Typography>
-            <Button variant="contained" sx={{ fontSize: 12 }}>
+            <Typography fontSize={12}>ID : 9804046210080</Typography>
+            <Button variant="contained" color="secondary" sx={{ fontSize: 12 }}>
               Edit Personal Information
             </Button>
             <Typography color="red" fontSize={10}>
@@ -54,7 +54,7 @@ const Home = () => {
             <Typography fontSize={12}>
               City of Tshwane Metropolitan Municipality
             </Typography>
-            <Button variant="contained" sx={{ fontSize: 12 }}>
+            <Button variant="contained" color="secondary" sx={{ fontSize: 12 }}>
               Edit Address Information
             </Button>
           </Stack>
