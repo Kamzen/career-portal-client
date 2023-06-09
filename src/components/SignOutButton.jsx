@@ -79,7 +79,7 @@ export const SignOutButton = () => {
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}> Cancel</Button>
+          <Button onClick={handleClose} variant="contained"> Cancel</Button>
           <Button
             color="error"
             variant="outlined"
