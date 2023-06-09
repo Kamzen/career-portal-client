@@ -116,7 +116,7 @@ const Home = () => {
           >
             Submit Profile
           </Button>
-          <Card
+          {/* <Card
             sx={{
               width: "100%",
               p: 2,
@@ -124,9 +124,9 @@ const Home = () => {
               minHeight: 300
             }}
             elevation={5}
-          >
+          > */}
             <LearnerInformation />
-          </Card>
+          {/* </Card> */}
         </Stack>
       </Stack>
     </Box>
