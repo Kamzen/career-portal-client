@@ -30,9 +30,9 @@ export const themeDark = createTheme({
     mode: "dark",
     primary: {
       light: "#3a9bfb",
-      main: "#1CCAFF",
+      main: "#14367c",
       info: "#333",
-      contrastText: "#333",
+      contrastText: "#ffffff",
     },
     secondary: {
       main: "#0FFFB3",
