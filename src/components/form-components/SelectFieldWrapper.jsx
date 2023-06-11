@@ -29,6 +29,7 @@ const SelectFieldWrapper = ({ name, label, options, ...otherProps }) => {
     <FormControl
       error={meta && meta.touched && meta.error ? true : null}
       fullWidth
+      size="small"
     >
       <InputLabel id="select">{label}</InputLabel>
       <Select
@@ -37,10 +38,11 @@ const SelectFieldWrapper = ({ name, label, options, ...otherProps }) => {
         id="select_id"
         value={values[name]}
         label={label}
+        size="small"
       >
-        <MenuItem value="">
+        {/* <MenuItem value="">
           <em>None</em>
-        </MenuItem>
+        </MenuItem> */}
         {options.map((item, index) => {
           return (
             <MenuItem key={index} value={item.value}>
