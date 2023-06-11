@@ -10,7 +10,7 @@ import LoginUser from "./pages/auth/LoginUser";
 import './App.css'
 
 function App() {
-  const [themeMode, setThemeMode] = useState(false);
+  const [themeMode, setThemeMode] = useState(true);
   return (
     <ThemeProvider theme={themeMode ? themeLight : themeDark}>
       <CssBaseline />
