@@ -9,7 +9,9 @@ import {
   IconButton,
   Stack,
   Toolbar,
-  Tooltip
+  Tooltip,
+  useMediaQuery,
+  useTheme
 } from "@mui/material";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import WbSunnyTwoToneIcon from "@mui/icons-material/WbSunnyTwoTone";
@@ -17,6 +19,7 @@ import WbSunnyTwoToneIcon from "@mui/icons-material/WbSunnyTwoTone";
 import { SignOutButton } from "../SignOutButton";
 
 export default function Navigation({ children, setThemeMode, currentTheme }) {
+  const theme = useTheme();
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
@@ -35,7 +38,11 @@ export default function Navigation({ children, setThemeMode, currentTheme }) {
             variant="h6"
             noWrap
             component="div"
-            sx={{ display: { xs: "none", sm: "block" }, ml: 2 }}
+            sx={{
+              ml: 2,
+              width: { xs: "100%", md: "fit-content" },
+              textAlign: "center"
+            }}
           >
             Career Portal
           </Typography>
@@ -79,11 +86,13 @@ export default function Navigation({ children, setThemeMode, currentTheme }) {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
-          mt: 5
+          // p: 3,
+          mt: 10
         }}
       >
-        <Container>{children}</Container>
+        <Container disableGutters={useMediaQuery(theme.breakpoints.up("md"))}>
+          {children}
+        </Container>
       </Box>
     </Box>
   );
