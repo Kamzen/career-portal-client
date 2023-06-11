@@ -7,24 +7,39 @@ import {
   Divider,
   LinearProgress,
   Stack,
-  Typography
+  Typography,
+  useMediaQuery,
+  useTheme
 } from "@mui/material";
 import React from "react";
 import userPhoto from "../images/295558557_3253413368206040_662268459652945389_n.jpg";
 import LearnerInformation from "../components/LearnerInformation";
 import PublishIcon from "@mui/icons-material/Publish";
+import EditLearnerBasicInformation from "../components/modals/EditLearnerBasicInformation";
+import AddressInforModal from "../components/modals/AddressInforModal";
 
 const Home = () => {
   const [progress] = React.useState(40);
+  const theme = useTheme();
+  console.log(useMediaQuery(theme.breakpoints.down("md")));
   return (
-    <Box p={2}>
+    <Box>
       {/* <Alert severity="error" variant="filled" elevation={6}>
         <AlertTitle>Warning</AlertTitle>
         Please note that to be considered for you interest(s) you need to
         complete your profile
       </Alert> */}
-      <Stack direction="row" mt={2}>
-        <Stack width="25%" alignItems="center" spacing={2}>
+      <Stack
+        direction={
+          useMediaQuery(theme.breakpoints.down("md")) ? "column" : "row"
+        }
+        mt={2}
+      >
+        <Stack
+          width={useMediaQuery(theme.breakpoints.down("md")) ? "100%" : "25%"}
+          alignItems="center"
+          spacing={2}
+        >
           <Stack spacing={1} width="100%">
             <Typography
               color="text.primary"
@@ -83,6 +98,7 @@ const Home = () => {
               <Typography fontSize={14}>Contact: +27 797126016</Typography>
               <Typography fontSize={14}>Occupation: Unemployed</Typography>
               <Typography fontSize={14}>ID : 9804046210080</Typography>
+              <EditLearnerBasicInformation />
               <Typography component={Stack} spacing={2} paddingTop={2}>
                 <Divider sx={{ backgroundColor: "primary.main" }} />
                 <Typography color="red" fontSize={10} textAlign="center">
@@ -101,32 +117,40 @@ const Home = () => {
               <Typography fontSize={14} textAlign="center">
                 City of Tshwane Metropolitan Municipality
               </Typography>
-              <Button variant="contained" sx={{ fontSize: 12 }}>
-                Edit Basic Information
-              </Button>
+              <AddressInforModal />
             </Stack>
           </Card>
         </Stack>
-        <Stack width="75%" pl={2} mt={2} spacing={2} alignItems="end">
-          <Button
-            variant="contained"
-            color="primary"
-            disabled={false}
-            startIcon={<PublishIcon />}
-          >
-            Submit Profile
-          </Button>
-          {/* <Card
-            sx={{
-              width: "100%",
-              p: 2,
-              textAlign: "center",
-              minHeight: 300
-            }}
-            elevation={5}
-          > */}
-            <LearnerInformation />
-          {/* </Card> */}
+        <Stack
+          width={useMediaQuery(theme.breakpoints.down("md")) ? "100%" : "75%"}
+          pl={!useMediaQuery(theme.breakpoints.down("md")) && 2}
+          mt={2}
+          spacing={2}
+          alignItems="end"
+        >
+          {!useMediaQuery(theme.breakpoints.down("md")) && (
+            <Button
+              variant="contained"
+              color="primary"
+              disabled={false}
+              startIcon={<PublishIcon />}
+            >
+              Submit Profile
+            </Button>
+          )}
+
+          <LearnerInformation />
+
+          {useMediaQuery(theme.breakpoints.down("md")) && (
+            <Button
+              variant="contained"
+              color="primary"
+              disabled={false}
+              startIcon={<PublishIcon />}
+            >
+              Submit Profile
+            </Button>
+          )}
         </Stack>
       </Stack>
     </Box>
