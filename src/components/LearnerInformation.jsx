@@ -10,20 +10,20 @@ import SubjectIcon from "@mui/icons-material/Subject";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import { Paper, Stack, Typography } from "@mui/material";
 import PropTypes from "prop-types";
+import BasicEducation from "./BasicEducation";
+import TertiaryEducation from "./TertiaryEducation";
+import ProfessionalsSkills from "./ProfessionalsSkills";
+import CertificateAndTraining from "./CertificateAndTraining";
+import Attachments from "./Attachments";
+import LearnerProgrammes from "./LearnerProgrammes";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
   return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`full-width-tabpanel-${index}`}
-      aria-labelledby={`full-width-tab-${index}`}
-      {...other}
-    >
+    <div role="tabpanel" hidden={value !== index} {...other}>
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -46,18 +46,13 @@ function a11yProps(index) {
 
 export default function AboutUserInfo() {
   const [value, setValue] = React.useState(0);
-  
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   return (
-    <Stack
-      spacing={2}
-      width='100%'
-    >
-      
+    <Stack spacing={2} width="100%">
       <Tabs
         value={value}
         onChange={handleChange}
@@ -155,22 +150,22 @@ export default function AboutUserInfo() {
       </Tabs>
 
       <TabPanel value={value} index={0}>
-        Item One
+        <BasicEducation />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+        <TertiaryEducation />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Item Three
+        <ProfessionalsSkills />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        Item Four
+        <CertificateAndTraining />
       </TabPanel>
       <TabPanel value={value} index={4}>
-        Item Five
+        <Attachments />
       </TabPanel>
       <TabPanel value={value} index={5}>
-        Item Six
+        <LearnerProgrammes />
       </TabPanel>
     </Stack>
   );
