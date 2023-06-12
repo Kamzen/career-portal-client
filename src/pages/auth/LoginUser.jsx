@@ -15,7 +15,12 @@ import logo from "../../images/white_logo.png";
 
 const LoginUser = () => {
   return (
-    <Stack width="100%" paddingY={4}>
+    <Stack
+      width="100%"
+      paddingY={4}
+      height={{ xs: "80vh" }}
+      justifyContent="center"
+    >
       <Grid container>
         <Grid item xs={12} md={12}>
           <Formik
@@ -35,7 +40,7 @@ const LoginUser = () => {
             {() => {
               return (
                 <Form>
-                  <Card sx={{ width: "40%", m: "auto" }}>
+                  <Card sx={{ width: { md: "30%", xs: "100%" }, m: "auto" }}>
                     <Stack
                       border={1}
                       height={130}
