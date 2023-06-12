@@ -58,6 +58,7 @@ export default function AboutUserInfo() {
         onChange={handleChange}
         variant="scrollable"
         scrollButtons="auto"
+        allowScrollButtonsMobile
         aria-label="scrollable auto tabs example"
         sx={{
           [`& .${tabsClasses.scrollButtons}`]: {
