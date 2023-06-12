@@ -21,7 +21,12 @@ import SelectFieldWrapper from "./form-components/SelectFieldWrapper";
 
 const TertiaryEducation = () => {
   return (
-    <Stack minHeight={100} padding={2} sx={{ position: "relative" }} component={Paper}>
+    <Stack
+      minHeight={100}
+      padding={2}
+      sx={{ position: "relative" }}
+      component={Paper}
+    >
       <Stack
         // border={1}
         width="100%"
@@ -50,22 +55,110 @@ const AddTertiaryEducationModal = () => {
     setOpen(false);
   };
 
-  const grades = [
+  const qualificationLevelOptions = [
     {
-      value: "Grade 9",
-      label: "Grade 9"
+      value: "National Certificate",
+      label: "National Certificate"
     },
     {
-      value: "Grade 10",
-      label: "Grade 10"
+      value: "National Diploma",
+      label: "National Diploma"
     },
     {
-      value: "Grade 11",
-      label: "Grade 11"
+      value: "National First Degree (Min 360",
+      label: "National First Degree (Min 360"
     },
     {
-      value: "Grade 12",
-      label: "Grade 12(Matric)"
+      value: "Post-doctoral Degree",
+      label: "Post-doctoral Degree"
+    },
+    {
+      value: "Doctoral Degree",
+      label: "Doctoral Degree"
+    },
+    {
+      value: "Masters Degree",
+      label: "Masters Degree"
+    },
+    {
+      value: "Professional Qualification",
+      label: "Professional Qualification"
+    },
+    {
+      value: "Honours Degree",
+      label: "Honours Degree"
+    },
+    {
+      value: "National Higher Diploma",
+      label: "National Higher Diploma"
+    },
+    {
+      value: "National Masters Diploma",
+      label: "National Masters Diploma"
+    },
+    {
+      value: "National Higher Certificate",
+      label: "National Higher Certificate"
+    },
+    {
+      value: "Further Diploma",
+      label: "Further Diploma"
+    },
+    {
+      value: "Post Graduate Diploma",
+      label: "Post Graduate Diploma"
+    },
+    {
+      value: "Senior Certificate",
+      label: "Senior Certificate"
+    },
+    {
+      value: "Qual at Nat Sen Cert level",
+      label: "Qual at Nat Sen Cert level"
+    },
+    {
+      value: "Apprenticeship / Trade Cert",
+      label: "Apprenticeship / Trade Cert"
+    },
+    {
+      value: "Post Grad B Degree (phasing out) e.g. B Ed",
+      label: "Post Grad B Degree (phasing out) e.g. B Ed"
+    },
+    {
+      value: "Post Diploma Diploma (phasing out)",
+      label: "Post Diploma Diploma (phasing out)"
+    },
+    {
+      value: "Post-basic Diploma [mainly applies to Nursing]",
+      label: "Post-basic Diploma [mainly applies to Nursing]"
+    },
+    {
+      value: "Further Ed and Training Cert (FETC)",
+      label: "Further Ed and Training Cert (FETC)"
+    },
+    {
+      value: "National First Degree (Min 480)",
+      label: "National First Degree (Min 480)"
+    },
+    {
+      value: "Schl below SenC: (not full qualification)",
+      label: "Schl below SenC: (not full qualification)"
+    },
+    {
+      value: "Advanced Certificate",
+      label: "Advanced Certificate"
+    },
+    {
+      value: "Advanced Diploma",
+      label: "Advanced Diploma"
+    },
+    {
+      value: "Higher Certificate",
+      label: "Higher Certificate"
+    },
+    {
+      value: "Occupational Certificate",
+      label: "Occupational Certificate"
     }
   ];
 
@@ -99,10 +192,12 @@ const AddTertiaryEducationModal = () => {
         <DialogContent>
           <Formik
             initialValues={{
-              grade: "",
-              schoolName: "",
-              schoolCity: "",
-              schoolProvince: ""
+              qualificationLevel: "",
+              fieldOfStudy: "",
+              institution: "",
+              startYear: "",
+              endYear: "",
+              status: ""
             }}
           >
             {(formik) => {
@@ -110,35 +205,66 @@ const AddTertiaryEducationModal = () => {
                 <Form>
                   <Grid container spacing={2}>
                     <Grid item xs={12} md={6}>
-                      <InputLabel sx={{ mb: 1 }}>Highest Grade Passed</InputLabel>
+                      <InputLabel sx={{ mb: 1 }}>
+                        Tertiary Education Level
+                      </InputLabel>
                       <SelectFieldWrapper
-                        name="grade"
-                        label="Grade"
-                        options={grades}
+                        name="qualificationLevel"
+                        label="Select Qualification Level"
+                        options={qualificationLevelOptions}
                       />
                     </Grid>
                     <Grid item xs={12} md={6}>
-                      <InputLabel>Hogh School Name</InputLabel>
+                      <InputLabel>Field Of Study</InputLabel>
                       <TextFieldWrapper
-                        name="schoolName"
-                        label="School Name"
+                        name="fieldOfStudy"
+                        label="Field Of Study"
                         sx={{ mt: 1 }}
                       />
                     </Grid>
                     <Grid item xs={12} md={6}>
-                      <InputLabel>City</InputLabel>
+                      <InputLabel>Institution</InputLabel>
                       <TextFieldWrapper
-                        name="schoolCity"
-                        label="City"
+                        name="institution"
+                        label="Institution"
                         sx={{ mt: 1 }}
                       />
                     </Grid>
 
                     <Grid item xs={12} md={6}>
-                      <InputLabel>Province</InputLabel>
+                      <InputLabel>Start Year</InputLabel>
                       <TextFieldWrapper
-                        name="schoolProvince"
-                        label="Province"
+                        name="startYear"
+                        label="Start Year"
+                        sx={{ mt: 1 }}
+                      />
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                      <InputLabel sx={{ mb: 1 }}>Status</InputLabel>
+                      <SelectFieldWrapper
+                        name="status"
+                        label="Status"
+                        options={[
+                          {
+                            value: "In Progress",
+                            label: "In Progress"
+                          },
+                          {
+                            value: "Pending",
+                            label: "Pending"
+                          },
+                          {
+                            value: "Completed",
+                            label: "Completed"
+                          }
+                        ]}
+                      />
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                      <InputLabel>End Year</InputLabel>
+                      <TextFieldWrapper
+                        name="endYear"
+                        label="End Year"
                         sx={{ mt: 1 }}
                       />
                     </Grid>
