@@ -99,7 +99,7 @@ export default function LocationAutoComplete({ setAddressInfor }) {
         let streetNumber = "";
         let streetName = "";
         let suburb = "";
-        let municipality = "";
+        let manicipality = "";
         let city = "";
         let province = "";
         let country = "";
@@ -119,7 +119,7 @@ export default function LocationAutoComplete({ setAddressInfor }) {
             city = component.long_name;
           }
           if (component.types.includes("administrative_area_level_2")) {
-            municipality = component.long_name;
+            manicipality = component.long_name;
           }
           if (component.types.includes("administrative_area_level_1")) {
             province = component.long_name;
@@ -136,7 +136,7 @@ export default function LocationAutoComplete({ setAddressInfor }) {
           streetNumber,
           streetName,
           suburb,
-          municipality,
+          manicipality,
           city: city || suburb,
           province,
           country,
