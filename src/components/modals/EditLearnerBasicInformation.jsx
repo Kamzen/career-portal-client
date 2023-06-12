@@ -185,6 +185,7 @@ export default function EditLearnerBasicInformation() {
                             label="Career Status"
                             fullWidth
                             size="small"
+                            disabled
                           />
                         )}
                       />
