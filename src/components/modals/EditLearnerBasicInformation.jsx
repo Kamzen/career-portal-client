@@ -50,6 +50,18 @@ export default function EditLearnerBasicInformation() {
     {
       value: "I am currently registered at a tertiary institution",
       label: "I am currently registered at a tertiary institution"
+    },
+    {
+      value: "I have no formal employment",
+      label: "I have no formal employment"
+    },
+    {
+      value: "I currently have a part-time job / internship",
+      label: "I currently have a part-time job / internship"
+    },
+    {
+      value: "I currently have a full-time, salaried job",
+      label: "I currently have a full-time, salaried job"
     }
   ];
 
@@ -86,6 +98,7 @@ export default function EditLearnerBasicInformation() {
               firstName: "",
               middleName: "",
               lastName: "",
+              id: "",
               disabilityStatus: "",
               careerStatus: "",
               mobileNumber: ""
@@ -116,6 +129,14 @@ export default function EditLearnerBasicInformation() {
                       <TextFieldWrapper
                         name="lastName"
                         label="LastName"
+                        sx={{ mt: 1 }}
+                      />
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                      <InputLabel>Identification Number</InputLabel>
+                      <TextFieldWrapper
+                        name="id"
+                        label="Identification Number"
                         sx={{ mt: 1 }}
                       />
                     </Grid>
@@ -168,7 +189,7 @@ export default function EditLearnerBasicInformation() {
                         )}
                       />
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12} md={12}>
                       <InputLabel>Mobile Number</InputLabel>
                       <TextFieldWrapper
                         name="mobileNumber"
