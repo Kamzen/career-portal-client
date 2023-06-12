@@ -185,11 +185,6 @@ export default function EditLearnerBasicInformation() {
                             label="Career Status"
                             fullWidth
                             size="small"
-                            inputProps={{
-                              onKeyDown: (e) => {
-                                e.preventDefault();
-                              }
-                            }}
                           />
                         )}
                       />
@@ -200,6 +195,7 @@ export default function EditLearnerBasicInformation() {
                         name="mobileNumber"
                         label="Mobile Number"
                         sx={{ mt: 1 }}
+                        type="number"
                       />
                     </Grid>
 
