@@ -185,7 +185,11 @@ export default function EditLearnerBasicInformation() {
                             label="Career Status"
                             fullWidth
                             size="small"
-                            disabled
+                            inputProps={{
+                              onKeyDown: (e) => {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                         )}
                       />
