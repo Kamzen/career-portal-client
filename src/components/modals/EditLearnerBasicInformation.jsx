@@ -5,17 +5,22 @@ import DialogContent from "@mui/material/DialogContent";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import {
+  Autocomplete,
   Box,
+  Checkbox,
   Grid,
   IconButton,
   InputLabel,
   Stack,
+  TextField,
   Typography
 } from "@mui/material";
 import { Form, Formik } from "formik";
 import TextFieldWrapper from "../form-components/TextFieldWrapper";
 import SelectFieldWrapper from "../form-components/SelectFieldWrapper";
 import CloseIcon from "@mui/icons-material/Close";
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
 
 export default function EditLearnerBasicInformation() {
   const [open, setOpen] = React.useState(false);
@@ -29,6 +34,24 @@ export default function EditLearnerBasicInformation() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+  const checkedIcon = <CheckBoxIcon fontSize="small" />;
+
+  const careerStatusOptions = [
+    {
+      value: "I obtained a matric certificate",
+      label: "I obtained a matric certificate"
+    },
+    {
+      value: "I obtained a matric certificate with university exemption",
+      label: "I obtained a matric certificate with university exemption"
+    },
+    {
+      value: "I am currently registered at a tertiary institution",
+      label: "I am currently registered at a tertiary institution"
+    }
+  ];
 
   return (
     <div>
@@ -54,7 +77,7 @@ export default function EditLearnerBasicInformation() {
         >
           <Typography>Edit Basic Information</Typography>
           <IconButton onClick={handleClose}>
-            <CloseIcon sx={{color: '#FFFFFF'}} />
+            <CloseIcon sx={{ color: "#FFFFFF" }} />
           </IconButton>
         </Stack>
         <DialogContent>
@@ -64,7 +87,7 @@ export default function EditLearnerBasicInformation() {
               middleName: "",
               lastName: "",
               disabilityStatus: "",
-              occupation: "",
+              careerStatus: "",
               mobileNumber: ""
             }}
           >
@@ -114,24 +137,35 @@ export default function EditLearnerBasicInformation() {
                       />
                     </Grid>
                     <Grid item xs={12} md={6}>
-                      <InputLabel sx={{ mb: 1 }}>Occupation</InputLabel>
-                      <SelectFieldWrapper
-                        name="occupation"
-                        label="Occupation"
-                        options={[
-                          {
-                            value: "Unemployed",
-                            label: "Unemployed"
-                          },
-                          {
-                            value: "Employed",
-                            label: "Employed"
-                          },
-                          {
-                            value: "Student",
-                            label: "Student"
-                          }
-                        ]}
+                      <InputLabel sx={{ mb: 1 }}>Career Status</InputLabel>
+                      <Autocomplete
+                        fullWidth
+                        multiple
+                        size="small"
+                        name="careerStatus"
+                        options={careerStatusOptions}
+                        disableCloseOnSelect
+                        getOptionLabel={(option) => option.label}
+                        renderOption={(props, option, { selected }) => (
+                          <li {...props}>
+                            <Checkbox
+                              icon={icon}
+                              checkedIcon={checkedIcon}
+                              style={{ marginRight: 8 }}
+                              checked={selected}
+                            />
+                            {option.label}
+                          </li>
+                        )}
+                        // style={{ width: 500 }}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Career Status"
+                            fullWidth
+                            size="small"
+                          />
+                        )}
                       />
                     </Grid>
                     <Grid item xs={12} md={6}>
