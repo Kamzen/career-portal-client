@@ -118,7 +118,7 @@ const AddEducationModal = () => {
                       />
                     </Grid>
                     <Grid item xs={12} md={6}>
-                      <InputLabel>Hogh School Name</InputLabel>
+                      <InputLabel>High School Name</InputLabel>
                       <TextFieldWrapper
                         name="schoolName"
                         label="School Name"
