@@ -1,7 +1,7 @@
 // import "./App.css";
 import Navigation from "./components/navigation/Navigation";
-import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-dom";
-// import Home from "./pages/Home";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import Home from "./pages/Home";
 import { ThemeProvider } from "@emotion/react";
 import { themeDark, themeLight } from "./theme";
 import { CssBaseline } from "@mui/material";
@@ -17,7 +17,7 @@ function App() {
       <Router>
         <Navigation setThemeMode={setThemeMode} currentTheme={themeMode}>
           <Routes>
-            <Route path="/" element={<Navigate to='/login' />} />
+            <Route path="/" element={<Home />} />
             <Route path="/login" element={<LoginUser />} />
           </Routes>
         </Navigation>
