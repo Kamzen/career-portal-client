@@ -8,6 +8,7 @@ import { CssBaseline } from "@mui/material";
 import { useState } from "react";
 import LoginUser from "./pages/auth/LoginUser";
 import './App.css'
+import RegisterUser from "./pages/auth/RegisterUser";
 
 function App() {
   const [themeMode, setThemeMode] = useState(true);
@@ -19,6 +20,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<LoginUser />} />
+            <Route path="/register" element={<RegisterUser />} />
           </Routes>
         </Navigation>
       </Router>
