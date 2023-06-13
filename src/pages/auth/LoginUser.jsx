@@ -12,13 +12,15 @@ import * as Yup from "yup";
 import React from "react";
 import TextFieldWrapper from "../../components/form-components/TextFieldWrapper";
 import logo from "../../images/white_logo.png";
+import { useNavigate } from "react-router-dom";
 
 const LoginUser = () => {
+  const navigate = useNavigate();
   return (
     <Stack
       width="100%"
       paddingY={4}
-      height={{ xs: "80vh" }}
+      // height={{ xs: "80vh" }}
       justifyContent="center"
     >
       <Grid container>
@@ -40,7 +42,7 @@ const LoginUser = () => {
             {() => {
               return (
                 <Form>
-                  <Card sx={{ width: { md: "30%", xs: "100%" }, m: "auto" }}>
+                  <Card sx={{ width: { md: "40%", xs: "100%" }, m: "auto" }}>
                     <Stack
                       border={1}
                       height={130}
@@ -95,6 +97,17 @@ const LoginUser = () => {
                         <Button type="submit" variant="contained" fullWidth>
                           Login
                         </Button>
+                      </Grid>
+                      <Grid xs={12} md={12}>
+                        <Typography>
+                          Don't Have An Account?{" "}
+                          <Link
+                            sx={{ textDecoration: "none" }}
+                            onClick={() => navigate("/register")}
+                          >
+                            Rgister
+                          </Link>
+                        </Typography>
                       </Grid>
                     </Grid>
                   </Card>
