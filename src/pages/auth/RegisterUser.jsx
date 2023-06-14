@@ -29,8 +29,8 @@ const RegisterUser = () => {
     },
     onSuccess: (data) => {
       setTimeout(() => {
-        navigate('/login')
-      }, 3000)
+        navigate("/login");
+      }, 3000);
     },
     onError: (error) => {
       console.log(error);
@@ -44,9 +44,7 @@ const RegisterUser = () => {
       // height={{ xs: "80vh" }}
       justifyContent="center"
     >
-      {
-        isSuccess && <AlertPopup open={true} message={data.message} />
-      }
+      {isSuccess && <AlertPopup open={true} message={data.message} />}
 
       <Grid container>
         <Grid item xs={12} md={12}>
@@ -73,9 +71,51 @@ const RegisterUser = () => {
                 .oneOf([Yup.ref("password"), null], "Passwords must match"),
               firstName: Yup.string().required("FirstName required"),
               lastName: Yup.string().required("LastName required"),
-              identificationNumber: Yup.string().required(
-                "Identification Number required"
-              )
+              identificationNumber: Yup.string()
+                .required("ID Number is a required field")
+                .test(
+                  "id_number",
+                  "Please provide valid Identification Number",
+                  function (num) {
+                    let idNumber = num?.toString();
+                    var correct = true;
+                    if (idNumber?.length !== 13 || !!isNaN(parseFloat(num))) {
+                      correct = false;
+                    }
+                    var tempDate = new Date(
+                      idNumber?.substring(0, 2),
+                      idNumber?.substring(2, 4) - 1,
+                      idNumber?.substring(4, 6)
+                    );
+                    if (tempDate instanceof Date) {
+                      correct = true;
+                    } else {
+                      correct = false;
+                    }
+                    var tempTotal = 0;
+                    var checkSum = 0;
+                    var multiplier = 1;
+
+                    for (var i = 0; i < 13; ++i) {
+                      tempTotal = parseInt(idNumber?.charAt(i)) * multiplier;
+                      if (tempTotal > 9) {
+                        tempTotal =
+                          parseInt(tempTotal.toString().charAt(0)) +
+                          parseInt(tempTotal.toString().charAt(1));
+                      }
+                      checkSum = checkSum + tempTotal;
+                      multiplier = multiplier % 2 === 0 ? 1 : 2;
+                    }
+                    if (checkSum % 10 !== 0) {
+                      correct = false;
+                    }
+                    if (correct) {
+                      return true;
+                    } else {
+                      return false;
+                    }
+                  }
+                )
             })}
             onSubmit={(values) => {
               mutate(values);
