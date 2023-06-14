@@ -1,8 +1,10 @@
 import {
+  Alert,
   Button,
   Card,
   Grid,
   InputLabel,
+  LinearProgress,
   Link,
   Stack,
   Typography
@@ -13,9 +15,28 @@ import React from "react";
 import TextFieldWrapper from "../../components/form-components/TextFieldWrapper";
 import logo from "../../images/white_logo.png";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import AlertPopup from "../../components/AlertPopup";
+import ApiQueries from "../../apiQuries";
 
 const RegisterUser = () => {
   const navigate = useNavigate();
+
+  const { mutate, isLoading, error, isSuccess, data } = useMutation({
+    mutationFn: (formData) => {
+      const data = ApiQueries.registerUser(formData);
+      return data;
+    },
+    onSuccess: (data) => {
+      setTimeout(() => {
+        navigate('/login')
+      }, 3000)
+    },
+    onError: (error) => {
+      console.log(error);
+    }
+  });
+
   return (
     <Stack
       width="100%"
@@ -23,17 +44,22 @@ const RegisterUser = () => {
       // height={{ xs: "80vh" }}
       justifyContent="center"
     >
+      {
+        isSuccess && <AlertPopup open={true} message={data.message} />
+      }
+
       <Grid container>
         <Grid item xs={12} md={12}>
           <Formik
             initialValues={{
               email: "",
               password: "",
-              id: "",
+              identificationNumber: "",
               firstName: "",
-              lastName: '',
-              race: "",
+              lastName: "",
               mobileNumber: "",
+              confirmPassword: "",
+              userType: "student"
             }}
             validationSchema={Yup.object().shape({
               email: Yup.string()
@@ -41,23 +67,37 @@ const RegisterUser = () => {
                 .email("Please prodive a valid email format"),
               password: Yup.string()
                 .required("Password required")
-                .min(8, "At least 8 characters required for password")
+                .min(8, "At least 8 characters required for password"),
+              confirmPassword: Yup.string()
+                .required("Confirm password required")
+                .oneOf([Yup.ref("password"), null], "Passwords must match"),
+              firstName: Yup.string().required("FirstName required"),
+              lastName: Yup.string().required("LastName required"),
+              identificationNumber: Yup.string().required(
+                "Identification Number required"
+              )
             })}
+            onSubmit={(values) => {
+              mutate(values);
+            }}
           >
             {() => {
               return (
                 <Form>
                   <Card sx={{ width: { md: "50%", xs: "100%" }, m: "auto" }}>
                     <Stack
-                      border={1}
+                      // border={1}
                       // height={130}
                       alignItems="center"
                       justifyContent="center"
                       sx={{ backgroundColor: "primary.main" }}
                       spacing={2}
+                      py={4}
                     >
                       <img src={logo} alt="" width={100} height={100} />
                     </Stack>
+
+                    {isLoading && <LinearProgress />}
 
                     <Typography
                       component={Stack}
@@ -71,114 +111,83 @@ const RegisterUser = () => {
                     >
                       Register
                     </Typography>
-                    <Grid container padding={2} rowGap={2}>
-                    <Grid xs={12} md={6}>
+                    {error?.response?.status === 409 && (
+                      <Alert severity="error" color="error" sx={{ m: 2 }}>
+                        {error?.response?.data?.message}
+                      </Alert>
+                    )}
+                    <Grid container padding={2} spacing={2}>
+                      <Grid item xs={12} md={6}>
                         <InputLabel>FirstName</InputLabel>
 
                         <TextFieldWrapper
                           name="firstName"
                           label="FirstName"
-                          sx={{ mt: 2 }}
+                          sx={{ mt: 1 }}
                         />
                       </Grid>
 
-                      <Grid xs={12} md={6}>
+                      <Grid item xs={12} md={6}>
                         <InputLabel>LastName</InputLabel>
                         <TextFieldWrapper
                           name="lastName"
                           label="LastName"
-                          sx={{ mt: 2 }}
+                          sx={{ mt: 1 }}
                         />
                       </Grid>
-                      <Grid xs={12} md={12}>
+                      <Grid item xs={12} md={6}>
                         <InputLabel>Identification Number</InputLabel>
                         <TextFieldWrapper
-                          name="id"
+                          name="identificationNumber"
                           label="Identification Number"
-                          sx={{ mt: 2 }}
-                        />
-                      </Grid>
-                      
-                      <Grid xs={12} md={12}>
-                        <InputLabel>Password</InputLabel>
-
-                        <TextFieldWrapper
-                          type="password"
-                          name="password"
-                          label="Password"
-                          sx={{ mt: 2 }}
+                          sx={{ mt: 1 }}
                         />
                       </Grid>
 
-                      <Grid xs={12} md={12}>
+                      <Grid item xs={12} md={6}>
                         <InputLabel>Email</InputLabel>
                         <TextFieldWrapper
                           name="email"
                           label="Email"
-                          sx={{ mt: 2 }}
+                          sx={{ mt: 1 }}
                         />
                       </Grid>
-                      <Grid xs={12} md={12}>
+
+                      <Grid item xs={12} md={6}>
                         <InputLabel>Password</InputLabel>
 
                         <TextFieldWrapper
                           type="password"
                           name="password"
                           label="Password"
-                          sx={{ mt: 2 }}
+                          sx={{ mt: 1 }}
                         />
                       </Grid>
 
-                      <Grid xs={12} md={12}>
-                        <InputLabel>Email</InputLabel>
-                        <TextFieldWrapper
-                          name="email"
-                          label="Email"
-                          sx={{ mt: 2 }}
-                        />
-                      </Grid>
-                      <Grid xs={12} md={12}>
-                        <InputLabel>Password</InputLabel>
+                      <Grid item xs={12} md={6}>
+                        <InputLabel>Confirm Password</InputLabel>
 
                         <TextFieldWrapper
                           type="password"
-                          name="password"
-                          label="Password"
-                          sx={{ mt: 2 }}
+                          name="confirmPassword"
+                          label="Confirm Password"
+                          sx={{ mt: 1 }}
                         />
                       </Grid>
 
-                      <Grid xs={12} md={12}>
-                        <InputLabel>Email</InputLabel>
-                        <TextFieldWrapper
-                          name="email"
-                          label="Email"
-                          sx={{ mt: 2 }}
-                        />
-                      </Grid>
-                      <Grid xs={12} md={12}>
-                        <InputLabel>Password</InputLabel>
-
-                        <TextFieldWrapper
-                          type="password"
-                          name="password"
-                          label="Password"
-                          sx={{ mt: 2 }}
-                        />
-                      </Grid>
-                      <Grid xs={12} md={12}>
+                      <Grid item xs={12} md={12}>
                         <Button type="submit" variant="contained" fullWidth>
-                          Login
+                          Register
                         </Button>
                       </Grid>
-                      <Grid xs={12} md={12}>
+                      <Grid item xs={12} md={12}>
                         <Typography>
-                          Don't Have An Account?{" "}
+                          Have An Account Already?
                           <Link
                             sx={{ textDecoration: "none" }}
-                            onClick={() => navigate("/register")}
+                            onClick={() => navigate("/login")}
                           >
-                            Rgister
+                            Login
                           </Link>
                         </Typography>
                       </Grid>
