@@ -26,7 +26,7 @@ export default function Navigation({ children, setThemeMode, currentTheme }) {
 
   const navigate = useNavigate();
 
-  const token = JSON.parse(localStorage.getItem("user")).token;
+  const token = JSON.parse(localStorage.getItem("user"))?.token;
 
   const { data } = useQuery({
     queryKey: ["userInfo"],

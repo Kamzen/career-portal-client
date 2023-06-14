@@ -6,7 +6,7 @@ const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
   withCredentials: true,
   headers: {
-    Authorization: `Bearer ${JSON.parse(localStorage.getItem("user")).token}`
+    Authorization: `Bearer ${JSON.parse(localStorage.getItem("user"))?.token}`
   }
 });
 
