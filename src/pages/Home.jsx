@@ -122,7 +122,7 @@ const Home = () => {
               <Typography fontSize={14}>
                 ID : {data?.studentInformation?.identificationNumber || "None"}
               </Typography>
-              <EditLearnerBasicInformation />
+              <EditLearnerBasicInformation userInfo={data} />
               <Typography component={Stack} spacing={2} paddingTop={2}>
                 <Divider sx={{ backgroundColor: "primary.main" }} />
                 <Typography color="red" fontSize={10} textAlign="center">
@@ -131,32 +131,32 @@ const Home = () => {
                 </Typography>
               </Typography>
               <Typography fontSize={18} fontWeight="bolder">
-                Address Information
+                {data.studentAddress && "Address Information"}
               </Typography>
-              <Typography fontSize={12}>
-                {data?.studentAddress.streetNumber ?
+              <Typography fontSize={14}>
+                {data?.studentAddress?.streetNumber ?
                   `${data?.studentAddress.streetNumber}, ${data?.studentAddress.streetName}`: ""}
               </Typography>
-              <Typography fontSize={12}>
+              <Typography fontSize={14}>
                 {(data?.studentAddress && data?.studentAddress.suburb) ||
-                  "Suburb"}
+                  ""}
               </Typography>
-              <Typography fontSize={12}>
-                {(data?.studentAddress && data?.studentAddress.city) || "City"}
+              <Typography fontSize={14}>
+                {(data?.studentAddress && data?.studentAddress.city) || ""}
               </Typography>
               <Typography fontSize={14}>
                 {(data?.studentAddress && data?.studentAddress.province) ||
-                  "Province"}
+                  ""}
               </Typography>
               <Typography fontSize={14}>
                 {(data?.studentAddress && data?.studentAddress.postalCode) ||
-                  "Postal Code"}
+                  ""}
               </Typography>
               <Typography fontSize={14} textAlign="center">
                 {(data?.studentAddress && data?.studentAddress.manicipality) ||
-                  "Manicipality"}
+                  ""}
               </Typography>
-              <AddressInforModal />
+              <AddressInforModal studentAddress={data?.studentAddress} />
             </Stack>
           </Card>
         </Stack>
