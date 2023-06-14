@@ -14,14 +14,13 @@ import * as Yup from "yup";
 import React from "react";
 import TextFieldWrapper from "../../components/form-components/TextFieldWrapper";
 import logo from "../../images/white_logo.png";
-import { useNavigate } from "react-router-dom";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import ApiQueries from "../../apiQuries";
 import AlertPopup from "../../components/AlertPopup";
 
 const LoginUser = () => {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
 
   const { mutate, error, isSuccess, isLoading, data } = useMutation({
     mutationFn: (formData) => {
@@ -31,18 +30,26 @@ const LoginUser = () => {
     },
 
     onSuccess: (data) => {
-      localStorage.setItem('user', JSON.stringify(data.user));
-      queryClient.invalidateQueries({
-        queryKey: 'userInfo',
-      })
+      localStorage.setItem('token', data.user.token);
       setTimeout(() => {
-        navigate('/')
+        window.location.href = 'http://localhost:3000/'
       }, 3000)
     },
     onError: (err) => {
       console.log(err);
     }
   });
+
+  const { data: info } = useQuery({
+    queryKey: ["userInfo"],
+    queryFn: () => {
+      return ApiQueries.userInfo();
+    }
+  });
+
+  if(info){
+    return <Navigate to='/' />
+  }
 
   return (
     <Stack
