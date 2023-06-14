@@ -31,6 +31,19 @@ const ApiQueries = {
     const { data } = await axiosInstance.get(`/auth/isUserLoggedIn`);
 
     return data.user;
+  },
+
+  addAddress: async (formData) => {
+
+    const { data } = await axiosInstance.post("/student/addAddress", formData);
+
+    return data;
+  },
+
+  editAddress: async (formData) => {
+    const { data } = await axiosInstance.post(`/student/editAddress/${formData.id}`, formData)
+
+    return data;
   }
 };
 
