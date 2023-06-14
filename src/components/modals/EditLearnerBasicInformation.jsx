@@ -21,8 +21,9 @@ import SelectFieldWrapper from "../form-components/SelectFieldWrapper";
 import CloseIcon from "@mui/icons-material/Close";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import * as Yup from "yup";
 
-export default function EditLearnerBasicInformation() {
+export default function EditLearnerBasicInformation({userInfo}) {
   const [open, setOpen] = React.useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -95,14 +96,69 @@ export default function EditLearnerBasicInformation() {
         <DialogContent>
           <Formik
             initialValues={{
-              firstName: "",
-              middleName: "",
-              lastName: "",
-              id: "",
-              disabilityStatus: "",
-              careerStatus: "",
-              mobileNumber: ""
+              firstName: userInfo?.firstName || "",
+              middleName: userInfo?.middleName || "",
+              lastName: userInfo?.lastName || "",
+              identificationNumber: userInfo?.studentInformation?.identificationNumber || "",
+              disability: userInfo?.studentInformation?.disability || "",
+              careerStatus: userInfo?.studentInformation?.careerStatus ||  [],
+              mobileNumber: userInfo?.studentInformation?.mobileNumber || "",
+              race: userInfo?.studentInformation?.race || ""
             }}
+            validationSchema={Yup.object().shape({
+              firstName: Yup.string().required("FirstName required"),
+              lastName: Yup.string().required("LastName required"),
+              careerStatus: Yup.string().required("Career status required"),
+              mobileNumber: Yup.string()
+                .required("Mobile number required")
+                .min(10, "At least 10 digits, eg 0797126016"),
+              race: Yup.string().required("Race is required"),
+              identificationNumber: Yup.string()
+                .required("ID Number is a required field")
+                .test(
+                  "id_number",
+                  "Please provide valid Identification Number",
+                  function (num) {
+                    let idNumber = num?.toString();
+                    var correct = true;
+                    if (idNumber?.length !== 13 || !!isNaN(parseFloat(num))) {
+                      correct = false;
+                    }
+                    var tempDate = new Date(
+                      idNumber?.substring(0, 2),
+                      idNumber?.substring(2, 4) - 1,
+                      idNumber?.substring(4, 6)
+                    );
+                    if (tempDate instanceof Date) {
+                      correct = true;
+                    } else {
+                      correct = false;
+                    }
+                    var tempTotal = 0;
+                    var checkSum = 0;
+                    var multiplier = 1;
+
+                    for (var i = 0; i < 13; ++i) {
+                      tempTotal = parseInt(idNumber?.charAt(i)) * multiplier;
+                      if (tempTotal > 9) {
+                        tempTotal =
+                          parseInt(tempTotal.toString().charAt(0)) +
+                          parseInt(tempTotal.toString().charAt(1));
+                      }
+                      checkSum = checkSum + tempTotal;
+                      multiplier = multiplier % 2 === 0 ? 1 : 2;
+                    }
+                    if (checkSum % 10 !== 0) {
+                      correct = false;
+                    }
+                    if (correct) {
+                      return true;
+                    } else {
+                      return false;
+                    }
+                  }
+                )
+            })}
           >
             {(formik) => {
               return (
@@ -117,7 +173,7 @@ export default function EditLearnerBasicInformation() {
                       />
                     </Grid>
                     <Grid item xs={12} md={6}>
-                      <InputLabel>MiddleName</InputLabel>
+                      <InputLabel>MiddleName(Optional)</InputLabel>
                       <TextFieldWrapper
                         name="middleName"
                         label="MiddleName"
@@ -143,7 +199,7 @@ export default function EditLearnerBasicInformation() {
                     <Grid item xs={12} md={6}>
                       <InputLabel sx={{ mb: 1 }}>Disability Status</InputLabel>
                       <SelectFieldWrapper
-                        name="disabilityStatus"
+                        name="disability"
                         label="Disability Status"
                         options={[
                           {
@@ -210,11 +266,11 @@ export default function EditLearnerBasicInformation() {
                         </Button>
                         <Button
                           variant="contained"
-                          onClick={handleClose}
+                          type="submit"
                           autoFocus
                           sx={{ ml: 2 }}
                         >
-                          Save
+                          Update
                         </Button>
                       </Box>
                     </Grid>
