@@ -17,11 +17,26 @@ import LearnerInformation from "../components/LearnerInformation";
 import PublishIcon from "@mui/icons-material/Publish";
 import EditLearnerBasicInformation from "../components/modals/EditLearnerBasicInformation";
 import AddressInforModal from "../components/modals/AddressInforModal";
+import { useQuery } from "@tanstack/react-query";
+import ApiQueries from "../apiQuries";
 
 const Home = () => {
   const [progress] = React.useState(40);
   const theme = useTheme();
-  console.log(useMediaQuery(theme.breakpoints.down("md")));
+
+  const { data } = useQuery({
+    queryKey: ["userInfo"],
+    queryFn: () => {
+      return ApiQueries.userInfo();
+    }
+
+    // staleTime: 1000 * 60 * 60 * 24
+  });
+
+  if (data) {
+    console.log(data);
+  }
+
   return (
     <Box>
       {/* <Alert severity="error" variant="filled" elevation={6}>
@@ -92,12 +107,21 @@ const Home = () => {
                 }}
               />
               <Typography fontSize={18} fontWeight="bolder">
-                Tiyisela Themba Makamu
+                {data?.firstName &&
+                  `${data?.firstName} ${data?.middleName || ""} ${
+                    data?.lastName
+                  }`}
               </Typography>
-              <Typography fontSize={14}>Email: kamzen1994@gmail.com</Typography>
-              <Typography fontSize={14}>Contact: +27 797126016</Typography>
-              <Typography fontSize={14}>Occupation: Unemployed</Typography>
-              <Typography fontSize={14}>ID : 9804046210080</Typography>
+              <Typography fontSize={14}>Email: {data?.email}</Typography>
+              <Typography fontSize={14}>
+                Contact: {data?.studentInformation?.mobileNumber || "None"}
+              </Typography>
+              <Typography fontSize={14}>
+                Occupation: {data?.studentInformation?.careerStatus || "None"}
+              </Typography>
+              <Typography fontSize={14}>
+                ID : {data?.studentInformation?.identificationNumber || "None"}
+              </Typography>
               <EditLearnerBasicInformation />
               <Typography component={Stack} spacing={2} paddingTop={2}>
                 <Divider sx={{ backgroundColor: "primary.main" }} />
@@ -109,13 +133,28 @@ const Home = () => {
               <Typography fontSize={18} fontWeight="bolder">
                 Address Information
               </Typography>
-              <Typography fontSize={14}>1386 Mthimunye Street,</Typography>
-              <Typography fontSize={12}>Ga-Rankuwa Unit 23,</Typography>
-              <Typography fontSize={12}>Ga-Rankuwa, </Typography>
-              <Typography fontSize={14}>Gauteng,</Typography>
-              <Typography fontSize={14}>0208,</Typography>
+              <Typography fontSize={12}>
+                {(data?.studentAddress && data?.studentAddress.streetNumber) ||
+                  "Street Number, Street Name"}
+              </Typography>
+              <Typography fontSize={12}>
+                {(data?.studentAddress && data?.studentAddress.suburb) ||
+                  "Suburb"}
+              </Typography>
+              <Typography fontSize={12}>
+                {(data?.studentAddress && data?.studentAddress.city) || "City"}
+              </Typography>
+              <Typography fontSize={14}>
+                {(data?.studentAddress && data?.studentAddress.province) ||
+                  "Province"}
+              </Typography>
+              <Typography fontSize={14}>
+                {(data?.studentAddress && data?.studentAddress.postalCode) ||
+                  "Postal Code"}
+              </Typography>
               <Typography fontSize={14} textAlign="center">
-                City of Tshwane Metropolitan Municipality
+                {(data?.studentAddress && data?.studentAddress.manicipality) ||
+                  "Manicipality"}
               </Typography>
               <AddressInforModal />
             </Stack>
