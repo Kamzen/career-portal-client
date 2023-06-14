@@ -7,6 +7,8 @@ import { Navigate, Outlet } from "react-router-dom";
 const PrivateRoute = () => {
   const [open, setOpen] = React.useState(true);
 
+  const token = localStorage.getItem('token')
+
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -17,10 +19,10 @@ const PrivateRoute = () => {
 
   const { data, isSuccess, isLoading, error } = useQuery({
     queryKey: ["userInfo"],
-    queryFn: () => {
-      return ApiQueries.userInfo();
+    queryFn: async () => {
+      return await ApiQueries.userInfo();
     },
-
+    enabled: !!token
     // staleTime: 1000 * 60 * 60 * 24
   });
 
