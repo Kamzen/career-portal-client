@@ -19,19 +19,27 @@ import WbSunnyTwoToneIcon from "@mui/icons-material/WbSunnyTwoTone";
 import { SignOutButton } from "../SignOutButton";
 import { useQuery } from "@tanstack/react-query";
 import ApiQueries from "../../apiQuries";
+import { useNavigate } from "react-router-dom";
 
 export default function Navigation({ children, setThemeMode, currentTheme }) {
   const theme = useTheme();
+
+  const navigate = useNavigate();
+
+  const token = JSON.parse(localStorage.getItem("user")).token;
 
   const { data } = useQuery({
     queryKey: ["userInfo"],
     queryFn: () => {
       return ApiQueries.userInfo();
-    },
+    }
 
     // staleTime: 1000 * 60 * 60 * 24
   });
 
+  if (!token) {
+    navigate("/login");
+  }
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -90,9 +98,7 @@ export default function Navigation({ children, setThemeMode, currentTheme }) {
                 </IconButton>
               </Tooltip> */}
 
-              {
-                data && <SignOutButton />
-              }
+              {data && <SignOutButton />}
             </>
           </Stack>
         </Toolbar>

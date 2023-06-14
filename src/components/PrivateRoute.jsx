@@ -32,7 +32,7 @@ const PrivateRoute = () => {
     return (
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
-          You are offline
+          The server is offline/you are offline
         </Alert>
       </Snackbar>
     );
