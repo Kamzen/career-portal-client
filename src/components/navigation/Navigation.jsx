@@ -17,9 +17,22 @@ import DarkModeIcon from "@mui/icons-material/DarkMode";
 import WbSunnyTwoToneIcon from "@mui/icons-material/WbSunnyTwoTone";
 // import PersonOutlineTwoToneIcon from "@mui/icons-material/PersonOutlineTwoTone";
 import { SignOutButton } from "../SignOutButton";
+import { useQuery } from "@tanstack/react-query";
+import ApiQueries from "../../apiQuries";
 
 export default function Navigation({ children, setThemeMode, currentTheme }) {
   const theme = useTheme();
+
+  const { data } = useQuery({
+    queryKey: ["userInfo"],
+    queryFn: () => {
+      return ApiQueries.userInfo();
+    },
+
+    // staleTime: 1000 * 60 * 60 * 24
+  });
+
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
@@ -77,7 +90,9 @@ export default function Navigation({ children, setThemeMode, currentTheme }) {
                 </IconButton>
               </Tooltip> */}
 
-              <SignOutButton />
+              {
+                data && <SignOutButton />
+              }
             </>
           </Stack>
         </Toolbar>
