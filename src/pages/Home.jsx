@@ -134,8 +134,8 @@ const Home = () => {
                 Address Information
               </Typography>
               <Typography fontSize={12}>
-                {(data?.studentAddress && data?.studentAddress.streetNumber) ||
-                  "Street Number, Street Name"}
+                {data?.studentAddress.streetNumber ?
+                  `${data?.studentAddress.streetNumber}, ${data?.studentAddress.streetName}`: ""}
               </Typography>
               <Typography fontSize={12}>
                 {(data?.studentAddress && data?.studentAddress.suburb) ||
