@@ -1,173 +1,135 @@
 import {
-  Box,
-  Button,
-  Dialog,
-  DialogContent,
-  Grid,
+  Alert,
   IconButton,
-  InputLabel,
+  LinearProgress,
   Paper,
+  Snackbar,
   Stack,
-  Typography,
-  useMediaQuery
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow
 } from "@mui/material";
 import React from "react";
+import { useQuery } from "@tanstack/react-query";
+import ApiQueries from "../apiQuries";
 
-import CloseIcon from "@mui/icons-material/Close";
-import { useTheme } from "@mui/material/styles";
-import { Form, Formik } from "formik";
-import TextFieldWrapper from "./form-components/TextFieldWrapper";
-import SelectFieldWrapper from "./form-components/SelectFieldWrapper";
+import EditIcon from "@mui/icons-material/Edit";
+import AddEducationModal from "./modals/AddEducationModal";
 
 const BasicEducation = () => {
+  // const [page, setPage] = React.useState(0);
+  // const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  // const handleChangePage = (event, newPage) => {
+  //   setPage(newPage);
+  // };
+
+  // const handleChangeRowsPerPage = (event) => {
+  //   setRowsPerPage(parseInt(event.target.value, 10));
+  //   setPage(0);
+  // };
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["userInfo"],
+    queryFn: () => {
+      return ApiQueries.userInfo();
+    }
+  });
+
+  if (isLoading) {
+    return <LinearProgress />;
+  }
+
+  if (isError) {
+    return (
+      <Snackbar open={true} autoHideDuration={6000}>
+        <Alert severity="error" sx={{ width: "100%" }}>
+          Error happened fetching your information
+        </Alert>
+      </Snackbar>
+    );
+  }
+
   return (
-    <Stack minHeight={100} padding={2} sx={{ position: "relative" }} component={Paper}>
-      <Stack
-        // border={1}
-        width="100%"
-        direction="row"
-        justifyContent="end"
-        sx={{ position: "absolute", bottom: 0, left: 0, padding: 2 }}
-      >
-        <AddEducationModal />
-      </Stack>
+    <Stack minHeight={100} padding={2} spacing={2} component={Paper}>
+      {data?.basicEducation ? (
+        <TableContainer component={Paper}>
+          <Table aria-label="simple table">
+            <TableHead sx={{ backgroundColor: "background.paper" }}>
+              <TableRow>
+                <TableCell align="center" sx={{ fontWeight: "bolder" }}>
+                  Highest Grade Passed
+                </TableCell>
+                <TableCell align="center" sx={{ fontWeight: "bolder" }}>
+                  High School Name
+                </TableCell>
+                <TableCell align="center" sx={{ fontWeight: "bolder" }}>
+                  City
+                </TableCell>
+                <TableCell align="center" sx={{ fontWeight: "bolder" }}>
+                  Province
+                </TableCell>
+                <TableCell align="center" sx={{ fontWeight: "bolder" }}>
+                  Action
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <TableRow>
+                <TableCell align="center" component="th" scope="row">
+                  {data?.basicEducation?.grade}
+                </TableCell>
+                <TableCell align="center" component="th" scope="row">
+                  {data?.basicEducation?.school}
+                </TableCell>
+                <TableCell align="center" component="th" scope="row">
+                  {data?.basicEducation?.city}
+                </TableCell>
+                <TableCell align="center">
+                  {data?.basicEducation?.province}
+                </TableCell>
+                <TableCell align="center">
+                  <IconButton>
+                    <EditIcon sx={{ color: "primary.main" }} />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            </TableBody>
+            {/* <TableFooter>
+            <TableRow>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
+                // colSpan={3}
+                count={employees?.length || 0}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                SelectProps={{
+                  inputProps: {
+                    "aria-label": "rows per page",
+                  },
+                  native: true,
+                }}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                ActionsComponent={TablePaginationActions}
+              />
+            </TableRow>
+          </TableFooter> */}
+          </Table>
+        </TableContainer>
+      ) : (
+        <Stack direction="row" justifyContent="center">
+          <AddEducationModal
+            basicEducation={data.basicEducation}
+            userId={data?.id}
+          />
+        </Stack>
+      )}
     </Stack>
   );
 };
 
 export default BasicEducation;
-
-const AddEducationModal = () => {
-  const [open, setOpen] = React.useState(false);
-  const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const grades = [
-    {
-      value: "Grade 9",
-      label: "Grade 9"
-    },
-    {
-      value: "Grade 10",
-      label: "Grade 10"
-    },
-    {
-      value: "Grade 11",
-      label: "Grade 11"
-    },
-    {
-      value: "Grade 12",
-      label: "Grade 12(Matric)"
-    }
-  ];
-
-  return (
-    <div>
-      <Button
-        variant="contained"
-        sx={{ fontSize: 12 }}
-        onClick={handleClickOpen}
-      >
-        Add Education
-      </Button>
-      <Dialog fullScreen={fullScreen} open={open} onClose={handleClose}>
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-          padding={2}
-          sx={{
-            backgroundColor: "primary.main",
-            height: 40,
-            color: "#FFFFFF",
-            fontWeight: "bolder"
-          }}
-        >
-          <Typography>Add Basic Education</Typography>
-          <IconButton onClick={handleClose}>
-            <CloseIcon sx={{ color: "#FFFFFF" }} />
-          </IconButton>
-        </Stack>
-        <DialogContent>
-          <Formik
-            initialValues={{
-              grade: "",
-              schoolName: "",
-              schoolCity: "",
-              schoolProvince: ""
-            }}
-          >
-            {(formik) => {
-              return (
-                <Form>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12} md={6}>
-                      <InputLabel sx={{ mb: 1 }}>Highest Grade Passed</InputLabel>
-                      <SelectFieldWrapper
-                        name="grade"
-                        label="Grade"
-                        options={grades}
-                      />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                      <InputLabel>High School Name</InputLabel>
-                      <TextFieldWrapper
-                        name="schoolName"
-                        label="School Name"
-                        sx={{ mt: 1 }}
-                      />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                      <InputLabel>City</InputLabel>
-                      <TextFieldWrapper
-                        name="schoolCity"
-                        label="City"
-                        sx={{ mt: 1 }}
-                      />
-                    </Grid>
-
-                    <Grid item xs={12} md={6}>
-                      <InputLabel>Province</InputLabel>
-                      <TextFieldWrapper
-                        name="schoolProvince"
-                        label="Province"
-                        sx={{ mt: 1 }}
-                      />
-                    </Grid>
-                    <Grid item xs={12} md={12}>
-                      <Box textAlign="end">
-                        <Button
-                          variant="outlined"
-                          autoFocus
-                          onClick={handleClose}
-                        >
-                          Close
-                        </Button>
-                        <Button
-                          variant="contained"
-                          onClick={handleClose}
-                          autoFocus
-                          sx={{ ml: 2, px: 3 }}
-                        >
-                          Add
-                        </Button>
-                      </Box>
-                    </Grid>
-                  </Grid>
-                </Form>
-              );
-            }}
-          </Formik>
-        </DialogContent>
-      </Dialog>
-    </div>
-  );
-};
