@@ -106,7 +106,7 @@ const Home = () => {
                   borderRadius: "50%"
                 }}
               />
-              <Typography fontSize={18} fontWeight="bolder">
+              <Typography fontSize={18} fontWeight="bolder" textAlign="center">
                 {data?.firstName &&
                   `${data?.firstName} ${data?.middleName || ""} ${
                     data?.lastName
@@ -116,7 +116,7 @@ const Home = () => {
               <Typography fontSize={14}>
                 Contact: {data?.studentInformation?.mobileNumber || "None"}
               </Typography>
-              <Typography fontSize={14}>
+              <Typography fontSize={14} textAlign="center">
                 Occupation: {data?.studentInformation?.careerStatus || "None"}
               </Typography>
               <Typography fontSize={14}>
@@ -134,19 +134,18 @@ const Home = () => {
                 {data.studentAddress && "Address Information"}
               </Typography>
               <Typography fontSize={14}>
-                {data?.studentAddress?.streetNumber ?
-                  `${data?.studentAddress.streetNumber}, ${data?.studentAddress.streetName}`: ""}
+                {data?.studentAddress?.streetNumber
+                  ? `${data?.studentAddress.streetNumber}, ${data?.studentAddress.streetName}`
+                  : ""}
               </Typography>
               <Typography fontSize={14}>
-                {(data?.studentAddress && data?.studentAddress.suburb) ||
-                  ""}
+                {(data?.studentAddress && data?.studentAddress.suburb) || ""}
               </Typography>
               <Typography fontSize={14}>
                 {(data?.studentAddress && data?.studentAddress.city) || ""}
               </Typography>
               <Typography fontSize={14}>
-                {(data?.studentAddress && data?.studentAddress.province) ||
-                  ""}
+                {(data?.studentAddress && data?.studentAddress.province) || ""}
               </Typography>
               <Typography fontSize={14}>
                 {(data?.studentAddress && data?.studentAddress.postalCode) ||
