@@ -28,22 +28,42 @@ const ApiQueries = {
   },
 
   userInfo: async () => {
-    const { data } = await axiosInstance.get(`/auth/isUserLoggedIn`);
+    const resp = await axiosInstance.get(`/auth/isUserLoggedIn`);
 
-    return data.user;
+    return resp?.data.user;
+  },
+
+  editBasicInformation: async (formData) => {
+    const resp = await axiosInstance.put(
+      `/student/editBasicInformation/${formData.id}`,
+      formData
+    );
+
+    return resp?.data;
   },
 
   addAddress: async (formData) => {
+    const resp = await axiosInstance.post("/student/addAddress", formData);
 
-    const { data } = await axiosInstance.post("/student/addAddress", formData);
-
-    return data;
+    return resp?.data;
   },
 
   editAddress: async (formData) => {
-    const { data } = await axiosInstance.post(`/student/editAddress/${formData.id}`, formData)
+    const resp = await axiosInstance.put(
+      `/student/editAddress/${formData.id}`,
+      formData
+    );
 
-    return data;
+    return resp?.data;
+  },
+
+  addBasicEducation: async (formData) => {
+    const resp = await axiosInstance.post(
+      "/student/addBasicEducation",
+      formData
+    );
+
+    return resp?.data;
   }
 };
 
