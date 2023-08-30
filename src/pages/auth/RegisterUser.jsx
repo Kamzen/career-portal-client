@@ -28,9 +28,7 @@ const RegisterUser = () => {
       return data;
     },
     onSuccess: (data) => {
-      setTimeout(() => {
-        navigate("/login");
-      }, 3000);
+      navigate("/login");
     },
     onError: (error) => {
       console.log(error);
