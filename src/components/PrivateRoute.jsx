@@ -49,7 +49,7 @@ const PrivateRoute = () => {
   }
 
   if (error?.response.status === 401) {
-    return <Navigate to="/login" />;
+    window.location.href = `http://localhost:3000/login`
   }
 
   return isSuccess && data ? (
