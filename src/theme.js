@@ -6,7 +6,7 @@ export const themeDark = createTheme({
       styleOverrides: {
         root: {
           border: "1px solid #202020ff",
-          borderRadius: "10px",
+          // borderRadius: "10px",
         },
       },
     },
@@ -76,8 +76,7 @@ export const themeLight = createTheme({
   palette: {
     mode: "light",
     primary: {
-      light: "#3a9bfb",
-      main: "#14367c",
+      main: "#0f4c81",
       info: "#333",
       contrastText: "#ffffff",
     },
