@@ -1,6 +1,5 @@
 import {
   Alert,
-  IconButton,
   LinearProgress,
   Paper,
   Snackbar,
@@ -15,8 +14,6 @@ import {
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import ApiQueries from "../apiQuries";
-
-import EditIcon from "@mui/icons-material/Edit";
 import AddEducationModal from "./modals/AddEducationModal";
 
 const BasicEducation = () => {
@@ -92,9 +89,10 @@ const BasicEducation = () => {
                   {data?.basicEducation?.province}
                 </TableCell>
                 <TableCell align="center">
-                  <IconButton>
-                    <EditIcon sx={{ color: "primary.main" }} />
-                  </IconButton>
+                  <AddEducationModal
+                    basicEducation={data.basicEducation}
+                    userId={data?.id}
+                  />
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -122,10 +120,7 @@ const BasicEducation = () => {
         </TableContainer>
       ) : (
         <Stack direction="row" justifyContent="center">
-          <AddEducationModal
-            basicEducation={data.basicEducation}
-            userId={data?.id}
-          />
+          <AddEducationModal userId={data.id} />
         </Stack>
       )}
     </Stack>
