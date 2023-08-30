@@ -21,6 +21,7 @@ import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import SelectFieldWrapper from "../form-components/SelectFieldWrapper";
 import TextFieldWrapper from "../form-components/TextFieldWrapper";
+import EditIcon from "@mui/icons-material/Edit";
 
 const AddEducationModal = ({ basicEducation, userId }) => {
   const [open, setOpen] = React.useState(false);
@@ -31,7 +32,11 @@ const AddEducationModal = ({ basicEducation, userId }) => {
 
   const { mutate, isSuccess, isError, data, error, isLoading } = useMutation({
     mutationFn: (formData) => {
-      return ApiQueries.addBasicEducation(formData);
+      if (basicEducation) {
+        return ApiQueries.editBasicEducation(formData);
+      } else {
+        return ApiQueries.addBasicEducation(formData);
+      }
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries(["userInfo"]);
@@ -70,14 +75,20 @@ const AddEducationModal = ({ basicEducation, userId }) => {
 
   return (
     <div>
-      <Button
-        variant="contained"
-        sx={{ fontSize: 12 }}
-        onClick={handleClickOpen}
-      >
-        Add Education
-      </Button>
-      {error && isError && <AlertPopup open={true} message="Server Error" />}
+      {basicEducation ? (
+        <IconButton onClick={handleClickOpen}>
+          <EditIcon sx={{ color: "primary.main" }} />
+        </IconButton>
+      ) : (
+        <Button
+          variant="contained"
+          sx={{ fontSize: 12 }}
+          onClick={handleClickOpen}
+        >
+          Add Education
+        </Button>
+      )}
+      {error && isError && <AlertPopup open={true} message="Server Error" severity='error' />}
       {isSuccess && data && <AlertPopup open={true} message={data.message} />}
       <Dialog fullScreen={fullScreen} open={open} onClose={handleClose}>
         <Stack
@@ -102,10 +113,11 @@ const AddEducationModal = ({ basicEducation, userId }) => {
           <Formik
             initialValues={{
               userId: userId,
-              grade: "",
-              school: "",
-              city: "",
-              province: ""
+              educationId: basicEducation?.id || "",
+              grade: basicEducation?.grade || "",
+              school: basicEducation?.school || "",
+              city: basicEducation?.city || "",
+              province: basicEducation?.province || ""
             }}
             validationSchema={Yup.object().shape({
               grade: Yup.string().required("Grade required"),
