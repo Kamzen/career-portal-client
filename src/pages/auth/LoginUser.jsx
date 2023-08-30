@@ -30,14 +30,14 @@ const LoginUser = () => {
     },
 
     onSuccess: (data) => {
-      localStorage.setItem('token', data.user.token);
-      setTimeout(() => {
-        window.location.href = 'http://localhost:3000/'
-      }, 3000)
+      localStorage.setItem("token", data.user.token);
+
+      window.location.href = "http://localhost:3000/";
     },
     onError: (err) => {
       console.log(err);
-    }
+    },
+    retry: 2
   });
 
   const { data: info } = useQuery({
@@ -47,8 +47,8 @@ const LoginUser = () => {
     }
   });
 
-  if(info){
-    return <Navigate to='/' />
+  if (info) {
+    return <Navigate to="/" />;
   }
 
   return (
@@ -60,7 +60,7 @@ const LoginUser = () => {
     >
       {isSuccess && <AlertPopup open={true} message={data.message} />}
 
-      <Grid container>
+      <Grid container spacing={2}>
         <Grid item xs={12} md={12}>
           <Formik
             initialValues={{
@@ -82,7 +82,7 @@ const LoginUser = () => {
             {() => {
               return (
                 <Form>
-                  <Card sx={{ width: { md: "40%", xs: "100%" }, m: "auto" }}>
+                  <Card sx={{ width: { md: "40%", xs: "100%" }, m: "auto", }}>
                     <Stack
                       // border={1}
                       height={130}
@@ -115,7 +115,7 @@ const LoginUser = () => {
                       </Alert>
                     )}
 
-                    <Grid container padding={2} spacing={2}>
+                    <Grid container spacing={2} p={2}>
                       <Grid item xs={12} md={12}>
                         <InputLabel>Email</InputLabel>
                         <TextFieldWrapper
