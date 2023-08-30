@@ -64,6 +64,28 @@ const ApiQueries = {
     );
 
     return resp?.data;
+  },
+  editBasicEducation: async (formData) => {
+    const resp = await axiosInstance.put(
+      `/student/editBasicEducation/${formData.educationId}`,
+      formData
+    );
+
+    return resp?.data;
+  },
+  addTertiaryEducation: async (formData) => {
+    const resp = await axiosInstance.post(
+      `/student/addTertiaryEducation`,
+      formData
+    );
+
+    return resp?.data;
+  },
+
+  addProfessionalSkill: async (formData) => {
+    const resp = await axiosInstance.post("/addProfessionalSkill", formData);
+
+    return resp?.data;
   }
 };
 
