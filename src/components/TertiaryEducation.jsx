@@ -1,299 +1,138 @@
 import {
-  Box,
-  Button,
-  Dialog,
-  DialogContent,
-  Grid,
-  IconButton,
-  InputLabel,
+  LinearProgress,
   Paper,
   Stack,
-  Typography,
-  useMediaQuery
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow
 } from "@mui/material";
 import React from "react";
-
-import CloseIcon from "@mui/icons-material/Close";
-import { useTheme } from "@mui/material/styles";
-import { Form, Formik } from "formik";
-import TextFieldWrapper from "./form-components/TextFieldWrapper";
-import SelectFieldWrapper from "./form-components/SelectFieldWrapper";
+import TertiaryEducationModal from "./modals/TertiaryEducationModal";
+import { useQuery } from "@tanstack/react-query";
+import ApiQueries from "../apiQuries";
+import AddEducationModal from "./modals/AddEducationModal";
 
 const TertiaryEducation = () => {
+  const { data, isLoading } = useQuery({
+    queryKey: ["userInfo"],
+    queryFn: () => {
+      return ApiQueries.userInfo();
+    }
+  });
+
+  if (isLoading) {
+    return <LinearProgress />;
+  }
+
+  console.log(data);
+
   return (
     <Stack
       minHeight={100}
       padding={2}
       sx={{ position: "relative" }}
       component={Paper}
+      spacing={2}
     >
+      {data?.tertiaryEducation?.length > 0 && (
+        <TableContainer component={Paper}>
+          <Table aria-label="simple table">
+            <TableHead sx={{ backgroundColor: "background.paper" }}>
+              <TableRow>
+                <TableCell align="center" sx={{ fontWeight: "bolder" }}>
+                  Level
+                </TableCell>
+                <TableCell align="center" sx={{ fontWeight: "bolder" }}>
+                  Field Of Study
+                </TableCell>
+
+                <TableCell align="center" sx={{ fontWeight: "bolder" }}>
+                  Institution
+                </TableCell>
+                <TableCell align="center" sx={{ fontWeight: "bolder" }}>
+                  Year Started
+                </TableCell>
+                <TableCell align="center" sx={{ fontWeight: "bolder" }}>
+                  Status
+                </TableCell>
+                <TableCell align="center" sx={{ fontWeight: "bolder" }}>
+                  Year Completed
+                </TableCell>
+                <TableCell align="center" sx={{ fontWeight: "bolder" }}>
+                  Action
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {data?.tertiaryEducation?.map((education, i) => {
+                return (
+                  <TableRow key={education.id}>
+                    <TableCell align="center" component="th" scope="row">
+                      {education.educationLevel}
+                    </TableCell>
+                    <TableCell align="center" component="th" scope="row">
+                      {education.fieldOfStudy}
+                    </TableCell>
+                    <TableCell align="center" component="th" scope="row">
+                      {education.institution}
+                    </TableCell>
+                    <TableCell align="center">
+                      {education.startYear}
+                    </TableCell>
+                    <TableCell align="center">
+                      {education.status}
+                    </TableCell>
+                    <TableCell align="center">
+                      {education.endYear
+                        ? education.endYear
+                        : "-"}
+                    </TableCell>
+                    <TableCell align="center">
+                      <AddEducationModal
+                        basicEducation={data.basicEducation}
+                        userId={data?.id}
+                      />
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+            {/* <TableFooter>
+            <TableRow>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
+                // colSpan={3}
+                count={employees?.length || 0}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                SelectProps={{
+                  inputProps: {
+                    "aria-label": "rows per page",
+                  },
+                  native: true,
+                }}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                ActionsComponent={TablePaginationActions}
+              />
+            </TableRow>
+          </TableFooter> */}
+          </Table>
+        </TableContainer>
+      )}
       <Stack
         // border={1}
         width="100%"
         direction="row"
-        justifyContent="end"
-        sx={{ position: "absolute", bottom: 0, left: 0, padding: 2 }}
+        justifyContent="center"
       >
-        <AddTertiaryEducationModal />
+        <TertiaryEducationModal userId={data.id} />
       </Stack>
     </Stack>
   );
 };
 
 export default TertiaryEducation;
-
-const AddTertiaryEducationModal = () => {
-  const [open, setOpen] = React.useState(false);
-  const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const qualificationLevelOptions = [
-    {
-      value: "National Certificate",
-      label: "National Certificate"
-    },
-    {
-      value: "National Diploma",
-      label: "National Diploma"
-    },
-    {
-      value: "National First Degree (Min 360",
-      label: "National First Degree (Min 360"
-    },
-    {
-      value: "Post-doctoral Degree",
-      label: "Post-doctoral Degree"
-    },
-    {
-      value: "Doctoral Degree",
-      label: "Doctoral Degree"
-    },
-    {
-      value: "Masters Degree",
-      label: "Masters Degree"
-    },
-    {
-      value: "Professional Qualification",
-      label: "Professional Qualification"
-    },
-    {
-      value: "Honours Degree",
-      label: "Honours Degree"
-    },
-    {
-      value: "National Higher Diploma",
-      label: "National Higher Diploma"
-    },
-    {
-      value: "National Masters Diploma",
-      label: "National Masters Diploma"
-    },
-    {
-      value: "National Higher Certificate",
-      label: "National Higher Certificate"
-    },
-    {
-      value: "Further Diploma",
-      label: "Further Diploma"
-    },
-    {
-      value: "Post Graduate Diploma",
-      label: "Post Graduate Diploma"
-    },
-    {
-      value: "Senior Certificate",
-      label: "Senior Certificate"
-    },
-    {
-      value: "Qual at Nat Sen Cert level",
-      label: "Qual at Nat Sen Cert level"
-    },
-    {
-      value: "Apprenticeship / Trade Cert",
-      label: "Apprenticeship / Trade Cert"
-    },
-    {
-      value: "Post Grad B Degree (phasing out) e.g. B Ed",
-      label: "Post Grad B Degree (phasing out) e.g. B Ed"
-    },
-    {
-      value: "Post Diploma Diploma (phasing out)",
-      label: "Post Diploma Diploma (phasing out)"
-    },
-    {
-      value: "Post-basic Diploma [mainly applies to Nursing]",
-      label: "Post-basic Diploma [mainly applies to Nursing]"
-    },
-    {
-      value: "Further Ed and Training Cert (FETC)",
-      label: "Further Ed and Training Cert (FETC)"
-    },
-    {
-      value: "National First Degree (Min 480)",
-      label: "National First Degree (Min 480)"
-    },
-    {
-      value: "Schl below SenC: (not full qualification)",
-      label: "Schl below SenC: (not full qualification)"
-    },
-    {
-      value: "Advanced Certificate",
-      label: "Advanced Certificate"
-    },
-    {
-      value: "Advanced Diploma",
-      label: "Advanced Diploma"
-    },
-    {
-      value: "Higher Certificate",
-      label: "Higher Certificate"
-    },
-    {
-      value: "Occupational Certificate",
-      label: "Occupational Certificate"
-    }
-  ];
-
-  return (
-    <div>
-      <Button
-        variant="contained"
-        sx={{ fontSize: 12 }}
-        onClick={handleClickOpen}
-      >
-        Add Qualification
-      </Button>
-      <Dialog fullScreen={fullScreen} open={open} onClose={handleClose}>
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-          padding={2}
-          sx={{
-            backgroundColor: "primary.main",
-            height: 40,
-            color: "#FFFFFF",
-            fontWeight: "bolder"
-          }}
-        >
-          <Typography>Add Qualification</Typography>
-          <IconButton onClick={handleClose}>
-            <CloseIcon sx={{ color: "#FFFFFF" }} />
-          </IconButton>
-        </Stack>
-        <DialogContent>
-          <Formik
-            initialValues={{
-              qualificationLevel: "",
-              fieldOfStudy: "",
-              institution: "",
-              startYear: "",
-              endYear: "",
-              status: ""
-            }}
-          >
-            {(formik) => {
-              return (
-                <Form>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12} md={6}>
-                      <InputLabel sx={{ mb: 1 }}>
-                        Tertiary Education Level
-                      </InputLabel>
-                      <SelectFieldWrapper
-                        name="qualificationLevel"
-                        label="Select Qualification Level"
-                        options={qualificationLevelOptions}
-                      />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                      <InputLabel>Field Of Study</InputLabel>
-                      <TextFieldWrapper
-                        name="fieldOfStudy"
-                        label="Field Of Study"
-                        sx={{ mt: 1 }}
-                      />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                      <InputLabel>Institution</InputLabel>
-                      <TextFieldWrapper
-                        name="institution"
-                        label="Institution"
-                        sx={{ mt: 1 }}
-                      />
-                    </Grid>
-
-                    <Grid item xs={12} md={6}>
-                      <InputLabel>Start Year</InputLabel>
-                      <TextFieldWrapper
-                        name="startYear"
-                        label="Start Year"
-                        sx={{ mt: 1 }}
-                      />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                      <InputLabel sx={{ mb: 1 }}>Status</InputLabel>
-                      <SelectFieldWrapper
-                        name="status"
-                        label="Status"
-                        options={[
-                          {
-                            value: "In Progress",
-                            label: "In Progress"
-                          },
-                          {
-                            value: "Pending",
-                            label: "Pending"
-                          },
-                          {
-                            value: "Completed",
-                            label: "Completed"
-                          }
-                        ]}
-                      />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                      <InputLabel>End Year</InputLabel>
-                      <TextFieldWrapper
-                        name="endYear"
-                        label="End Year"
-                        sx={{ mt: 1 }}
-                      />
-                    </Grid>
-                    <Grid item xs={12} md={12}>
-                      <Box textAlign="end">
-                        <Button
-                          variant="outlined"
-                          autoFocus
-                          onClick={handleClose}
-                        >
-                          Close
-                        </Button>
-                        <Button
-                          variant="contained"
-                          onClick={handleClose}
-                          autoFocus
-                          sx={{ ml: 2, px: 3 }}
-                        >
-                          Add
-                        </Button>
-                      </Box>
-                    </Grid>
-                  </Grid>
-                </Form>
-              );
-            }}
-          </Formik>
-        </DialogContent>
-      </Dialog>
-    </div>
-  );
-};
