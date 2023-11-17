@@ -23,6 +23,7 @@ import ApiQueries from "../../apiQuries";
 import AlertPopup from "../AlertPopup";
 import * as Yup from "yup";
 import YearDatePicker from "../form-components/YearDatePicker";
+import EditIcon from "@mui/icons-material/Edit";
 
 const TertiaryEducationModal = ({ tertiaryEducation, userId }) => {
   const [open, setOpen] = React.useState(false);
@@ -39,16 +40,21 @@ const TertiaryEducationModal = ({ tertiaryEducation, userId }) => {
 
   const queryClient = useQueryClient();
 
-  const {
-    mutate,
-    isSuccess,
-    isError,
-    data,
-    error,
-    isLoading,
-  } = useMutation({
+  const { mutate, isSuccess, isError, data, error, isLoading } = useMutation({
     mutationFn: (formData) => {
       return ApiQueries.addTertiaryEducation(formData);
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(["userInfo"]);
+    },
+    onError: (err) => {
+      console.log(err);
+    }
+  });
+
+  const editTertiaryEducationQuery = useMutation({
+    mutationFn: (formData) => {
+      return ApiQueries.editTertiaryEducation(formData);
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries(["userInfo"]);
@@ -186,15 +192,47 @@ const TertiaryEducationModal = ({ tertiaryEducation, userId }) => {
 
   return (
     <div>
-      {error && isError && <AlertPopup open={true} message="Server Error" severity='error' />}
+      {error && isError && (
+        <AlertPopup
+          open={true}
+          message={error?.response?.data?.message || "Internal server error"}
+          severity="error"
+        />
+      )}
       {isSuccess && data && <AlertPopup open={true} message={data.message} />}
-      <Button
-        variant="contained"
-        sx={{ fontSize: 12 }}
-        onClick={handleClickOpen}
-      >
-        Add Qualification
-      </Button>
+
+      {editTertiaryEducationQuery.error &&
+        editTertiaryEducationQuery.isError && (
+          <AlertPopup
+            open={true}
+            message={
+              editTertiaryEducationQuery.error?.response?.data?.message ||
+              "Internal server error"
+            }
+            severity="error"
+          />
+        )}
+      {editTertiaryEducationQuery.isSuccess &&
+        editTertiaryEducationQuery.data && (
+          <AlertPopup
+            open={true}
+            message={editTertiaryEducationQuery.data.message}
+          />
+        )}
+
+      {tertiaryEducation ? (
+        <IconButton color="secondary" onClick={() => setOpen(true)}>
+          <EditIcon />
+        </IconButton>
+      ) : (
+        <Button
+          variant="contained"
+          sx={{ fontSize: 12 }}
+          onClick={handleClickOpen}
+        >
+          Add Qualification
+        </Button>
+      )}
       <Dialog fullScreen={fullScreen} open={open} onClose={handleClose}>
         <Stack
           direction="row"
@@ -208,7 +246,9 @@ const TertiaryEducationModal = ({ tertiaryEducation, userId }) => {
             fontWeight: "bolder"
           }}
         >
-          <Typography>Add Qualification</Typography>
+          <Typography>
+            {tertiaryEducation ? "Edit Qualification" : "Add Qualification"}
+          </Typography>
           <IconButton onClick={handleClose}>
             <CloseIcon sx={{ color: "#FFFFFF" }} />
           </IconButton>
@@ -216,13 +256,14 @@ const TertiaryEducationModal = ({ tertiaryEducation, userId }) => {
         <DialogContent>
           <Formik
             initialValues={{
-              userId: userId || "",
-              educationLevel: "",
-              fieldOfStudy: "",
-              institution: "",
-              startYear: "",
-              endYear: "",
-              status: ""
+              userId: tertiaryEducation?.userId || "",
+              tertiaryEducationId: tertiaryEducation?.id || "",
+              educationLevel: tertiaryEducation?.educationLevel || "",
+              fieldOfStudy: tertiaryEducation?.fieldOfStudy || "",
+              institution: tertiaryEducation?.institution || "",
+              startYear: tertiaryEducation?.startYear || "",
+              endYear: tertiaryEducation?.endYear || "",
+              status: tertiaryEducation?.status || ""
             }}
             validationSchema={Yup.object().shape({
               educationLevel: Yup.string().required(
@@ -240,7 +281,11 @@ const TertiaryEducationModal = ({ tertiaryEducation, userId }) => {
               })
             })}
             onSubmit={(values) => {
-              mutate(values);
+              if (tertiaryEducation) {
+                editTertiaryEducationQuery.mutate(values);
+              } else {
+                mutate(values);
+              }
             }}
           >
             {({ values, errors }) => {
@@ -294,20 +339,34 @@ const TertiaryEducationModal = ({ tertiaryEducation, userId }) => {
                     )}
                     <Grid item xs={12} md={12}>
                       <Box textAlign="end">
-                        <Button
-                          variant="outlined"
-                          autoFocus
-                          onClick={handleClose}
-                        >
+                        <Button variant="outlined" onClick={handleClose}>
                           Close
                         </Button>
-                        <Button
-                          variant="contained"
-                          type="submit"
-                          sx={{ ml: 2, px: 3 }}
-                        >
-                          Add
-                        </Button>
+                        {tertiaryEducation ? (
+                          <Button
+                            variant="contained"
+                            type="submit"
+                            sx={{ ml: 2, px: 3 }}
+                          >
+                            {editTertiaryEducationQuery.isLoading ? (
+                              <LinearProgress color="secondary" />
+                            ) : (
+                              "Edit"
+                            )}
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="contained"
+                            type="submit"
+                            sx={{ ml: 2, px: 3 }}
+                          >
+                            {isLoading ? (
+                              <LinearProgress color="secondary" />
+                            ) : (
+                              "Add"
+                            )}
+                          </Button>
+                        )}
                       </Box>
                     </Grid>
                   </Grid>
