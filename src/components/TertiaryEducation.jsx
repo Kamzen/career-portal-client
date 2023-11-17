@@ -7,13 +7,14 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TableRow
+  TableRow,
+  Typography
 } from "@mui/material";
 import React from "react";
 import TertiaryEducationModal from "./modals/TertiaryEducationModal";
 import { useQuery } from "@tanstack/react-query";
 import ApiQueries from "../apiQuries";
-import AddEducationModal from "./modals/AddEducationModal";
+import { DeleteTertiaryEducationModal } from "./modals/DeleteTertiaryEducationModal";
 
 const TertiaryEducation = () => {
   const { data, isLoading } = useQuery({
@@ -37,6 +38,11 @@ const TertiaryEducation = () => {
       component={Paper}
       spacing={2}
     >
+      <Typography
+        sx={{ fontSize: 20, textAlign: "center", fontWeight: "bolder" }}
+      >
+        Qualifications
+      </Typography>
       {data?.tertiaryEducation?.length > 0 && (
         <TableContainer component={Paper}>
           <Table aria-label="simple table">
@@ -67,7 +73,7 @@ const TertiaryEducation = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {data?.tertiaryEducation?.map((education, i) => {
+              {data?.tertiaryEducation?.map((education) => {
                 return (
                   <TableRow key={education.id}>
                     <TableCell align="center" component="th" scope="row">
@@ -79,22 +85,16 @@ const TertiaryEducation = () => {
                     <TableCell align="center" component="th" scope="row">
                       {education.institution}
                     </TableCell>
+                    <TableCell align="center">{education.startYear}</TableCell>
+                    <TableCell align="center">{education.status}</TableCell>
                     <TableCell align="center">
-                      {education.startYear}
+                      {education.endYear ? education.endYear : "-"}
                     </TableCell>
                     <TableCell align="center">
-                      {education.status}
-                    </TableCell>
-                    <TableCell align="center">
-                      {education.endYear
-                        ? education.endYear
-                        : "-"}
-                    </TableCell>
-                    <TableCell align="center">
-                      <AddEducationModal
-                        basicEducation={data.basicEducation}
-                        userId={data?.id}
-                      />
+                      <Stack direction="row" spacing={2}>
+                        <TertiaryEducationModal tertiaryEducation={education} />
+                        <DeleteTertiaryEducationModal />
+                      </Stack>
                     </TableCell>
                   </TableRow>
                 );
