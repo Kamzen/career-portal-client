@@ -25,6 +25,8 @@ import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import PersonAddDisabledIcon from "@mui/icons-material/PersonAddDisabled";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
+import logo2 from "../../images/blue_bg_only_logo.png";
+import Avatar from "@mui/material/Avatar";
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open"
@@ -171,6 +173,35 @@ export default function Navigation({ children, setThemeMode, currentTheme }) {
               )}
             </>
           )}
+
+          <Stack direction="row" alignItems="center" width="100%">
+            <IconButton>
+              <Avatar src={logo2} />
+            </IconButton>
+            <Stack width="100%">
+              <Typography
+                variant="h6"
+                noWrap
+                component="div"
+                // textTransform="uppercase"
+                fontSize={14}
+                // onClick={() => navigate("/home")}
+                textTransform="uppercase"
+                fontWeight="bolder"
+                // letterSpacing={6}
+              >
+                LEARNER PORTAL
+              </Typography>
+              <Typography
+                fontSize={9}
+                // border={1}
+                sx={{ position: "relative", bottom: 5, height: 10 }}
+                letterSpacing={2}
+              >
+                <i>Make the future count</i>
+              </Typography>
+            </Stack>
+          </Stack>
 
           <Box sx={{ mx: "auto" }}></Box>
           <Stack direction="row" spacing={2}>
