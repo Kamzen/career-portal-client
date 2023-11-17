@@ -17,6 +17,8 @@ import { Form, Formik } from "formik";
 import TextFieldWrapper from "../form-components/TextFieldWrapper";
 import SelectFieldWrapper from "../form-components/SelectFieldWrapper";
 import { useMutation } from "@tanstack/react-query";
+import ApiQueries from "../../apiQuries";
+import * as Yup from "yup";
 
 const ProfessionalsSkillsModal = () => {
   const [open, setOpen] = useState(false);
@@ -32,9 +34,13 @@ const ProfessionalsSkillsModal = () => {
   };
 
   const { mutate, error, isError, isSuccess, data } = useMutation({
-    mutationFn: (formData) => {},
+    mutationFn: (formData) => {
+      return ApiQueries.addProfessionalSkill(formData);
+    },
     onSuccess: (data) => {},
-    onError: (err) => {}
+    onError: (err) => {
+      console.log(err);
+    }
   });
 
   return (
@@ -70,7 +76,13 @@ const ProfessionalsSkillsModal = () => {
               skill: "",
               skillLevel: ""
             }}
-            
+            validationSchema={Yup.object().shape({
+              skill: Yup.string().required("Please enter skill"),
+              skillLevel: Yup.string().required("Please select skill level")
+            })}
+            onSubmit={(values, formik) => {
+              mutate(values);
+            }}
           >
             {(formik) => {
               return (
@@ -112,8 +124,7 @@ const ProfessionalsSkillsModal = () => {
                         </Button>
                         <Button
                           variant="contained"
-                          onClick={handleClose}
-                          autoFocus
+                          type="submit"
                           sx={{ ml: 2, px: 3 }}
                         >
                           Add
