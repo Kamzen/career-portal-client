@@ -1,12 +1,11 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:5000/api/v1";
+const API_BASE_URL = "http://localhost:8000/api/v1";
 
 const token = localStorage.getItem("token");
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
-  withCredentials: true,
   headers: {
     Authorization: `Bearer ${token}`
   }
@@ -76,6 +75,15 @@ const ApiQueries = {
   addTertiaryEducation: async (formData) => {
     const resp = await axiosInstance.post(
       `/student/addTertiaryEducation`,
+      formData
+    );
+
+    return resp?.data;
+  },
+
+  editTertiaryEducation: async (formData) => {
+    const resp = await axiosInstance.put(
+      `/student/editTertiaryEducation/${formData.tertiaryEducationId}`,
       formData
     );
 
