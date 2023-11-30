@@ -93,7 +93,7 @@ const TertiaryEducation = () => {
                     <TableCell align="center">
                       <Stack direction="row" spacing={2}>
                         <TertiaryEducationModal tertiaryEducation={education} />
-                        <DeleteTertiaryEducationModal />
+                        <DeleteTertiaryEducationModal id={education.id} />
                       </Stack>
                     </TableCell>
                   </TableRow>
