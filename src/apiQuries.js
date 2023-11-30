@@ -90,6 +90,14 @@ const ApiQueries = {
     return resp?.data;
   },
 
+  deleteTertiaryEducation: async (id) => {
+    const resp = await axiosInstance.delete(
+      `/student/deleteTertiaryEducation/${id}`
+    );
+
+    return resp?.data;
+  },
+
   addProfessionalSkill: async (formData) => {
     const resp = await axiosInstance.post("/addProfessionalSkill", formData);
 
