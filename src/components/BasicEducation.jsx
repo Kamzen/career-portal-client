@@ -9,7 +9,8 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TableRow
+  TableRow,
+  Typography
 } from "@mui/material";
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -52,6 +53,11 @@ const BasicEducation = () => {
 
   return (
     <Stack minHeight={100} padding={2} spacing={2} component={Paper}>
+      <Typography
+        sx={{ fontSize: 20, textAlign: "center", fontWeight: "bolder" }}
+      >
+        Basic Education
+      </Typography>
       {data?.basicEducation ? (
         <TableContainer component={Paper}>
           <Table aria-label="simple table">
