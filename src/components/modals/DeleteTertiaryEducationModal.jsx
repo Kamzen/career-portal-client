@@ -7,37 +7,23 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
+  LinearProgress,
   Typography
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 
 import Tooltip from "@mui/material/Tooltip";
 import { DeleteForever } from "@mui/icons-material";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import ApiQueries from "../../apiQuries";
+import AlertPopup from "../AlertPopup";
 
 /**
  * Renders a sign-out button
  */
-export const DeleteTertiaryEducationModal = () => {
-  const navigate = useNavigate();
-
-  // const { instance } = useMsal();
-
-  const handleLogout = () => {
-    // if (logoutType === "popup") {
-
-    // instance.logoutPopup({
-    //   postLogoutRedirectUri: "/",
-    //   mainWindowRedirectUri: "/",
-    // });
-
-    localStorage.removeItem("userInfo");
-    sessionStorage.clear();
-
-    navigate("/");
-    window.location.reload();
-  };
-
+export const DeleteTertiaryEducationModal = ({ id }) => {
   const [open, setOpen] = React.useState(false);
+
+  const queryClient = useQueryClient();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -46,6 +32,19 @@ export const DeleteTertiaryEducationModal = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const { mutate, isError, error, isLoading, isSuccess, data } = useMutation({
+    mutationFn: async (id) => {
+      return ApiQueries.deleteTertiaryEducation(id);
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries("userInfo");
+      setOpen(false);
+    },
+    onError: (err) => {
+      console.log(err);
+    }
+  });
 
   return (
     <div>
@@ -59,6 +58,14 @@ export const DeleteTertiaryEducationModal = () => {
           <DeleteForever />
         </IconButton>
       </Tooltip>
+      {isSuccess && <AlertPopup open={true} message={data.message} />}
+      {isError && (
+        <AlertPopup
+          severity="error"
+          open={true}
+          message={error.response.data.message || "Server Error"}
+        />
+      )}
       <Dialog
         sx={{ border: "3px solid #F44336 " }}
         open={open}
@@ -88,12 +95,10 @@ export const DeleteTertiaryEducationModal = () => {
           <Button
             color="error"
             variant="outlined"
-            onClick={() => {
-              handleLogout("redirect");
-            }}
             autoFocus
+            onClick={() => mutate(id)}
           >
-            Delete
+            {isLoading ? <LinearProgress color="secondary" /> : "Delete"}
           </Button>
         </DialogActions>
       </Dialog>
