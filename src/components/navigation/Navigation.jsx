@@ -14,9 +14,9 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { Stack, Tooltip, styled } from "@mui/material";
-import DarkModeIcon from "@mui/icons-material/DarkMode";
-import WbSunnyTwoToneIcon from "@mui/icons-material/WbSunnyTwoTone";
+import { Button, Stack, Tooltip, styled } from "@mui/material";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import LoginIcon from "@mui/icons-material/Login";
 import { SignOutButton } from "../SignOutButton";
 import { useQuery } from "@tanstack/react-query";
 import ApiQueries from "../../apiQuries";
@@ -137,7 +137,7 @@ export default function Navigation({ children, setThemeMode, currentTheme }) {
 
   return (
     <Box
-      sx={{ display: { md: "flex", xs: "block", sm: "block" } }}
+      sx={{ display: { md: "flex", xs: "block", sm: "block" }, backgroundColor: '#FFFFFF' }}
       width="100%"
     >
       <CssBaseline />
@@ -146,9 +146,12 @@ export default function Navigation({ children, setThemeMode, currentTheme }) {
         open={open}
         color="default"
         sx={{
-          border: "none",
-          borderRadius: 0,
-          width: "100%"
+          border: 1,
+          borderRadius: 5,
+          width: "100%",
+          backgroundColor: "#FFFFFF",
+          borderColor: 'lightgray',
+          boxShadow: 0
         }}
       >
         <Toolbar>
@@ -205,7 +208,7 @@ export default function Navigation({ children, setThemeMode, currentTheme }) {
 
           <Box sx={{ mx: "auto" }}></Box>
           <Stack direction="row" spacing={2}>
-            <Tooltip title="Set Theme">
+            {/* <Tooltip title="Set Theme">
               {currentTheme ? (
                 <IconButton onClick={() => setThemeMode(!currentTheme)}>
                   <DarkModeIcon />
@@ -215,7 +218,40 @@ export default function Navigation({ children, setThemeMode, currentTheme }) {
                   <WbSunnyTwoToneIcon />
                 </IconButton>
               )}
-            </Tooltip>
+            </Tooltip> */}
+            <Stack direction="row" spacing={2}>
+              {/* <Tooltip title="Set Theme">
+              {currentTheme ? (
+                <IconButton onClick={() => setThemeMode(!currentTheme)}>
+                  <DarkModeIcon />
+                </IconButton>
+              ) : (
+                <IconButton onClick={() => setThemeMode(!currentTheme)}>
+                  <WbSunnyTwoToneIcon />
+                </IconButton>
+              )}
+            </Tooltip> */}
+
+              <Button
+                variant="contained"
+                color="primary"
+                endIcon={<LoginIcon />}
+                sx={{ fontWeight: "bolder" }}
+              >
+                Login
+              </Button>
+
+              <Button
+                variant="outlined"
+                // color="warning"
+                endIcon={<AppRegistrationIcon />}
+                sx={{ fontWeight: "bolder" }}
+              >
+                Rigister
+              </Button>
+
+              <>{data && <SignOutButton />}</>
+            </Stack>
 
             <>{data && <SignOutButton />}</>
           </Stack>
@@ -335,7 +371,7 @@ export default function Navigation({ children, setThemeMode, currentTheme }) {
         </Drawer>
       )}
 
-      <Main open={open} sx={{ mt: 6 }}>
+      <Main open={open} sx={{ p: 0 }}>
         {data?.userType !== "student" && <DrawerHeader />}
         {children}
       </Main>
