@@ -9,7 +9,7 @@ import {
   Stack,
   Typography,
   useMediaQuery,
-  useTheme
+  useTheme,
 } from "@mui/material";
 import React, { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
@@ -19,8 +19,9 @@ import SelectFieldWrapper from "../form-components/SelectFieldWrapper";
 import { useMutation } from "@tanstack/react-query";
 import ApiQueries from "../../apiQuries";
 import * as Yup from "yup";
+import AlertPopup from "../AlertPopup";
 
-const ProfessionalsSkillsModal = () => {
+const ProfessionalsSkillsModal = ({ userId }) => {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -40,11 +41,39 @@ const ProfessionalsSkillsModal = () => {
     onSuccess: (data) => {},
     onError: (err) => {
       console.log(err);
-    }
+    },
   });
 
   return (
     <div>
+      {error && isError && (
+        <AlertPopup
+          open={true}
+          message={error?.response?.data?.message || "Internal server error"}
+          severity="error"
+        />
+      )}
+      {isSuccess && data && <AlertPopup open={true} message={data.message} />}
+
+      {/* {error &&
+        editTertiaryEducationQuery.isError && (
+          <AlertPopup
+            open={true}
+            message={
+              editTertiaryEducationQuery.error?.response?.data?.message ||
+              "Internal server error"
+            }
+            severity="error"
+          />
+        )}
+      {editTertiaryEducationQuery.isSuccess &&
+        editTertiaryEducationQuery.data && (
+          <AlertPopup
+            open={true}
+            message={editTertiaryEducationQuery.data.message}
+          />
+        )} */}
+
       <Button
         variant="contained"
         sx={{ fontSize: 12 }}
@@ -62,7 +91,7 @@ const ProfessionalsSkillsModal = () => {
             backgroundColor: "primary.main",
             height: 40,
             color: "#FFFFFF",
-            fontWeight: "bolder"
+            fontWeight: "bolder",
           }}
         >
           <Typography>Add Professional Skills</Typography>
@@ -73,12 +102,13 @@ const ProfessionalsSkillsModal = () => {
         <DialogContent>
           <Formik
             initialValues={{
+              userId: userId || "",
               skill: "",
-              skillLevel: ""
+              skillLevel: "",
             }}
             validationSchema={Yup.object().shape({
               skill: Yup.string().required("Please enter skill"),
-              skillLevel: Yup.string().required("Please select skill level")
+              skillLevel: Yup.string().required("Please select skill level"),
             })}
             onSubmit={(values, formik) => {
               mutate(values);
@@ -100,16 +130,16 @@ const ProfessionalsSkillsModal = () => {
                         options={[
                           {
                             value: "Beginner",
-                            label: "Beginner"
+                            label: "Beginner",
                           },
                           {
                             value: "Intermediate",
-                            label: "Intermediate"
+                            label: "Intermediate",
                           },
                           {
                             value: "Expert",
-                            label: "Expert"
-                          }
+                            label: "Expert",
+                          },
                         ]}
                       />
                     </Grid>
