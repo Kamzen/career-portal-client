@@ -12,6 +12,7 @@ import RegisterUser from "./pages/auth/RegisterUser";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import PrivateRoute from "./components/PrivateRoute";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   const [themeMode, setThemeMode] = useState(true);
@@ -23,8 +24,11 @@ function App() {
         <Router>
           <Navigation setThemeMode={setThemeMode} currentTheme={themeMode}>
             <Routes>
-              {/* <Route path="/" element={<PrivateRoute />}></Route> */}
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<PrivateRoute />}>
+                <Route path="/profile" element={<Dashboard />} />
+              </Route>
+
+              <Route path="/home" element={<Home />} />
               <Route path="/login" element={<LoginUser />} />
               <Route path="/register" element={<RegisterUser />} />
             </Routes>
