@@ -280,7 +280,7 @@ export default function Navigation({ children, setThemeMode, currentTheme }) {
                 color: "#FFFFFF"
               }}
             >
-              Career Portal
+              Learner Portal
             </Typography>
           </DrawerHeader>
           <Divider />
