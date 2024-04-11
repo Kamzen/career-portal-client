@@ -17,14 +17,14 @@ export const themeDark = createTheme({
           borderRadius: "5px"
         }
       }
-    },
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          borderRadius: 8
-        }
-      }
     }
+    // MuiButton: {
+    //   styleOverrides: {
+    //     root: {
+    //       borderRadius: 8
+    //     }
+    //   }
+    // }
   },
   palette: {
     mode: "dark",
@@ -71,7 +71,7 @@ export const themeLight = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: 8
+          height: 37
         }
       }
     }
@@ -79,7 +79,8 @@ export const themeLight = createTheme({
   palette: {
     mode: "light",
     primary: {
-      main: "#0f4c81",
+      light: "#1f2f79",
+      main: "#163683",
       info: "#333",
       contrastText: "#ffffff"
     },
@@ -93,6 +94,7 @@ export const themeLight = createTheme({
     }
   },
   typography: {
-    fontSize: 12
+    fontSize: 12,
+    fontFamily: "Roboto, Reenie Beanie"
   }
 });
