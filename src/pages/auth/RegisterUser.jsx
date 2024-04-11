@@ -54,7 +54,7 @@ const RegisterUser = () => {
         paddingX={2}
         paddingY={4}
       >
-        <Stack spacing={2} width="55%">
+        <Stack spacing={2} width="50%">
           {error?.response?.status === 409 && (
             <Alert severity="error" color="error" sx={{ m: 2, width: "100%" }}>
               {error?.response?.data?.message}
