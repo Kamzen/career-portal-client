@@ -24,6 +24,8 @@ const TertiaryEducation = () => {
     }
   });
 
+  console.log(data)
+
   if (isLoading) {
     return <LinearProgress />;
   }
@@ -129,7 +131,7 @@ const TertiaryEducation = () => {
         direction="row"
         justifyContent="center"
       >
-        <TertiaryEducationModal userId={data.id} />
+        <TertiaryEducationModal userId={data?.id} />
       </Stack>
     </Stack>
   );
