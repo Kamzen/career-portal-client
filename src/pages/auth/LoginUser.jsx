@@ -1,7 +1,6 @@
 import {
   Alert,
   Button,
-  Card,
   Grid,
   InputLabel,
   LinearProgress,
@@ -13,11 +12,13 @@ import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import React from "react";
 import TextFieldWrapper from "../../components/form-components/TextFieldWrapper";
-import logo from "../../images/white_logo.png";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import ApiQueries from "../../apiQuries";
-import AlertPopup from "../../components/AlertPopup";
+import bgImg from "../../images/Untitled-2.bcecf2a1201a8f598c47.png";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import LoginIcon from "@mui/icons-material/Login";
+
 
 const LoginUser = () => {
   const navigate = useNavigate();
@@ -52,7 +53,142 @@ const LoginUser = () => {
   }
 
   return (
-    <Stack
+    <Stack>
+      <Stack
+        sx={{
+          backgroundImage: `url(${bgImg})`,
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "200px -100px",
+          minHeight: "87vh",
+          maxHeight: "110vh",
+          width: "100%",
+          backgroundColor: "#FFFFFF"
+        }}
+        // spacing={2}
+        padding={1}
+        paddingX={10}
+        // paddingY={10}
+      >
+        <Stack width="50%" spacing={2} alignItems="center" minHeight='86vh' justifyContent='center'>
+          {error?.response?.status === 404 && (
+            <Alert severity="error" color="error" sx={{ width: "100%" }}>
+              {error?.response?.data?.message}
+            </Alert>
+          )}
+          {isSuccess && (
+            <Alert severity="success" color="success" sx={{ width: "100%" }}>
+              {data.message}
+            </Alert>
+          )}
+
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={12}>
+              <Formik
+                initialValues={{
+                  email: "",
+                  password: ""
+                }}
+                validationSchema={Yup.object().shape({
+                  email: Yup.string()
+                    .required("Email required")
+                    .email("Please prodive a valid email format"),
+                  password: Yup.string()
+                    .required("Password required")
+                    .min(8, "At least 8 characters required for password")
+                })}
+                onSubmit={(values) => {
+                  mutate(values);
+                }}
+              >
+                {() => {
+                  return (
+                    <Form>
+                      {isLoading && <LinearProgress />}
+
+                      <Stack alignItems="center">
+                        <Typography
+                          fontWeight="bolder"
+                          fontSize={30}
+                          letterSpacing={5}
+                          fontFamily="Roboto, Reenie Beanie"
+                        >
+                          Login
+                        </Typography>
+                      </Stack>
+
+                      <Grid container spacing={2}>
+                        <Grid item xs={12} md={12}>
+                          <InputLabel>Email</InputLabel>
+                          <TextFieldWrapper
+                            name="email"
+                            label="Email"
+                            sx={{ mt: 2 }}
+                          />
+                        </Grid>
+                        <Grid item xs={12} md={12}>
+                          <Stack
+                            direction="row"
+                            justifyContent="space-between"
+                            alignItems="center"
+                          >
+                            <InputLabel>Password</InputLabel>
+                            <Link
+                              sx={{ textDecoration: "none", cursor: "pointer" }}
+                            >
+                              Forgot Password
+                            </Link>
+                          </Stack>
+                          <TextFieldWrapper
+                            type="password"
+                            name="password"
+                            label="Password"
+                            sx={{ mt: 2 }}
+                          />
+                        </Grid>
+
+                        <Grid item xs={12} md={12}>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            endIcon={<LoginIcon />}
+                            sx={{ fontWeight: "bolder", width: "100%" }}
+                            type="submit"
+                          >
+                            Login
+                          </Button>
+                        </Grid>
+
+                        <Grid item xs={12} md={6}>
+                          <Button
+                            variant="outlined"
+                            // color="warning"
+                            endIcon={<AppRegistrationIcon />}
+                            sx={{ fontWeight: "bolder", width: "100%" }}
+                            onClick={() => navigate("/register")}
+                          >
+                            Rigister
+                          </Button>
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                          <Button
+                            variant="outlined"
+                            color="secondary"
+                            endIcon={<AppRegistrationIcon />}
+                            sx={{ fontWeight: "bolder", width: "100%" }}
+                          >
+                            Download Career Guide
+                          </Button>
+                        </Grid>
+                      </Grid>
+                    </Form>
+                  );
+                }}
+              </Formik>
+            </Grid>
+          </Grid>
+        </Stack>
+        {/* <Stack
       width="100%"
       paddingY={4}
       // height={{ xs: "80vh" }}
@@ -166,6 +302,8 @@ const LoginUser = () => {
           </Formik>
         </Grid>
       </Grid>
+    </Stack> */}
+      </Stack>
     </Stack>
   );
 };
