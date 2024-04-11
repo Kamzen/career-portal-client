@@ -7,8 +7,8 @@ const token = localStorage.getItem("token");
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
   headers: {
-    Authorization: `Bearer ${token}`
-  }
+    Authorization: `Bearer ${token}`,
+  },
 });
 
 const ApiQueries = {
@@ -99,10 +99,13 @@ const ApiQueries = {
   },
 
   addProfessionalSkill: async (formData) => {
-    const resp = await axiosInstance.post("/addProfessionalSkill", formData);
+    const resp = await axiosInstance.post(
+      "/student/addProfessionalSkill",
+      formData
+    );
 
     return resp?.data;
-  }
+  },
 };
 
 export default ApiQueries;
