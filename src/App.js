@@ -23,9 +23,8 @@ function App() {
         <Router>
           <Navigation setThemeMode={setThemeMode} currentTheme={themeMode}>
             <Routes>
-              <Route path="/" element={<PrivateRoute />}>
-                <Route path="/" element={<Home />} />
-              </Route>
+              {/* <Route path="/" element={<PrivateRoute />}></Route> */}
+              <Route path="/" element={<Home />} />
               <Route path="/login" element={<LoginUser />} />
               <Route path="/register" element={<RegisterUser />} />
             </Routes>
