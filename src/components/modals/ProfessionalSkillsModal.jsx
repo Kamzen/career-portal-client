@@ -7,9 +7,10 @@ import {
   IconButton,
   InputLabel,
   Stack,
+  Tooltip,
   Typography,
   useMediaQuery,
-  useTheme,
+  useTheme
 } from "@mui/material";
 import React, { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
@@ -20,8 +21,10 @@ import { useMutation } from "@tanstack/react-query";
 import ApiQueries from "../../apiQuries";
 import * as Yup from "yup";
 import AlertPopup from "../AlertPopup";
+import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
 
-const ProfessionalsSkillsModal = ({ userId }) => {
+const ProfessionalsSkillsModal = ({ skill, userId }) => {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -41,7 +44,7 @@ const ProfessionalsSkillsModal = ({ userId }) => {
     onSuccess: (data) => {},
     onError: (err) => {
       console.log(err);
-    },
+    }
   });
 
   return (
@@ -74,13 +77,43 @@ const ProfessionalsSkillsModal = ({ userId }) => {
           />
         )} */}
 
-      <Button
-        variant="contained"
-        sx={{ fontSize: 12 }}
-        onClick={handleClickOpen}
-      >
-        Add Professional Skills
-      </Button>
+      {skill ? (
+        <Tooltip title="Edit">
+          <IconButton
+            onClick={handleClickOpen}
+            sx={{
+              backgroundColor: "primary.main",
+              color: "#FFFFFF",
+              "&:hover": {
+                backgroundColor: "primary.light",
+                color: "#FFFFFF",
+                fontWeight: "bolder"
+              }
+            }}
+          >
+            <EditIcon />
+          </IconButton>
+        </Tooltip>
+      ) : (
+        <Tooltip title="Add">
+          <IconButton
+            onClick={handleClickOpen}
+            color="inherit"
+            sx={{
+              backgroundColor: "primary.main",
+              color: "#FFFFFF",
+              "&:hover": {
+                backgroundColor: "primary.light",
+                color: "#FFFFFF",
+                fontWeight: "bolder"
+              }
+            }}
+          >
+            <AddIcon />
+          </IconButton>
+        </Tooltip>
+      )}
+
       <Dialog fullScreen={fullScreen} open={open} onClose={handleClose}>
         <Stack
           direction="row"
@@ -91,10 +124,12 @@ const ProfessionalsSkillsModal = ({ userId }) => {
             backgroundColor: "primary.main",
             height: 40,
             color: "#FFFFFF",
-            fontWeight: "bolder",
+            fontWeight: "bolder"
           }}
         >
-          <Typography>Add Professional Skills</Typography>
+          <Typography>
+            {skill ? "Edit Professional Skill" : "Add Professional Skills"}
+          </Typography>
           <IconButton onClick={handleClose}>
             <CloseIcon sx={{ color: "#FFFFFF" }} />
           </IconButton>
@@ -104,11 +139,11 @@ const ProfessionalsSkillsModal = ({ userId }) => {
             initialValues={{
               userId: userId || "",
               skill: "",
-              skillLevel: "",
+              skillLevel: ""
             }}
             validationSchema={Yup.object().shape({
               skill: Yup.string().required("Please enter skill"),
-              skillLevel: Yup.string().required("Please select skill level"),
+              skillLevel: Yup.string().required("Please select skill level")
             })}
             onSubmit={(values, formik) => {
               mutate(values);
@@ -130,16 +165,16 @@ const ProfessionalsSkillsModal = ({ userId }) => {
                         options={[
                           {
                             value: "Beginner",
-                            label: "Beginner",
+                            label: "Beginner"
                           },
                           {
                             value: "Intermediate",
-                            label: "Intermediate",
+                            label: "Intermediate"
                           },
                           {
                             value: "Expert",
-                            label: "Expert",
-                          },
+                            label: "Expert"
+                          }
                         ]}
                       />
                     </Grid>
@@ -152,13 +187,23 @@ const ProfessionalsSkillsModal = ({ userId }) => {
                         >
                           Close
                         </Button>
-                        <Button
-                          variant="contained"
-                          type="submit"
-                          sx={{ ml: 2, px: 3 }}
-                        >
-                          Add
-                        </Button>
+                        {skill ? (
+                          <Button
+                            variant="contained"
+                            type="submit"
+                            sx={{ ml: 2, px: 3 }}
+                          >
+                            Update
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="contained"
+                            type="submit"
+                            sx={{ ml: 2, px: 3 }}
+                          >
+                            Add
+                          </Button>
+                        )}
                       </Box>
                     </Grid>
                   </Grid>
