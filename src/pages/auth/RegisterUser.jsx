@@ -2,7 +2,6 @@ import {
   Alert,
   Button,
   Grid,
-  InputLabel,
   LinearProgress,
   Stack,
   Typography
@@ -44,7 +43,7 @@ const RegisterUser = () => {
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "200px -100px",
-          minHeight: "89vh",
+          minHeight: "87vh",
           maxHeight: "110vh",
           width: "100%",
           backgroundColor: "#FFFFFF"
@@ -52,9 +51,15 @@ const RegisterUser = () => {
         // spacing={2}
         padding={1}
         paddingX={2}
-        paddingY={4}
+        // paddingY={4}
       >
-        <Stack spacing={2} width="50%">
+        <Stack
+          spacing={2}
+          width="50%"
+          sx={{ minHeight: "86vh" }}
+          alignItems="center"
+          justifyContent="center"
+        >
           {error?.response?.status === 409 && (
             <Alert severity="error" color="error" sx={{ m: 2, width: "100%" }}>
               {error?.response?.data?.message}
@@ -163,60 +168,60 @@ const RegisterUser = () => {
 
                       <Grid container padding={2} spacing={2}>
                         <Grid item xs={12} md={6}>
-                          <InputLabel>FirstName</InputLabel>
+                          {/* <InputLabel>FirstName</InputLabel> */}
 
                           <TextFieldWrapper
                             name="firstName"
                             label="FirstName"
-                            sx={{ mt: 1 }}
+                            // sx={{ mt: 1 }}
                           />
                         </Grid>
 
                         <Grid item xs={12} md={6}>
-                          <InputLabel>LastName</InputLabel>
+                          {/* <InputLabel>LastName</InputLabel> */}
                           <TextFieldWrapper
                             name="lastName"
                             label="LastName"
-                            sx={{ mt: 1 }}
+                            // sx={{ mt: 1 }}
                           />
                         </Grid>
                         <Grid item xs={12} md={6}>
-                          <InputLabel>Identification Number</InputLabel>
+                          {/* <InputLabel>Identification Number</InputLabel> */}
                           <TextFieldWrapper
                             name="identificationNumber"
                             label="Identification Number"
-                            sx={{ mt: 1 }}
+                            // sx={{ mt: 1 }}
                           />
                         </Grid>
 
                         <Grid item xs={12} md={6}>
-                          <InputLabel>Email</InputLabel>
+                          {/* <InputLabel>Email</InputLabel> */}
                           <TextFieldWrapper
                             name="email"
                             label="Email"
-                            sx={{ mt: 1 }}
+                            // sx={{ mt: 1 }}
                           />
                         </Grid>
 
                         <Grid item xs={12} md={6}>
-                          <InputLabel>Password</InputLabel>
+                          {/* <InputLabel>Password</InputLabel> */}
 
                           <TextFieldWrapper
                             type="password"
                             name="password"
                             label="Password"
-                            sx={{ mt: 1 }}
+                            // sx={{ mt: 1 }}
                           />
                         </Grid>
 
                         <Grid item xs={12} md={6}>
-                          <InputLabel>Confirm Password</InputLabel>
+                          {/* <InputLabel>Confirm Password</InputLabel> */}
 
                           <TextFieldWrapper
                             type="password"
                             name="confirmPassword"
                             label="Confirm Password"
-                            sx={{ mt: 1 }}
+                            // sx={{ mt: 1 }}
                           />
                         </Grid>
 
