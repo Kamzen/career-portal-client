@@ -13,10 +13,20 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import PrivateRoute from "./components/PrivateRoute";
 import Dashboard from "./pages/Dashboard";
+import StudentsHome from "./components/StudentsHome";
 
 function App() {
   const [themeMode, setThemeMode] = useState(true);
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      mutations: {
+        retry: 0
+      },
+      queries: {
+        retry: 0
+      }
+    }
+  });
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={themeMode ? themeLight : themeDark}>
@@ -25,7 +35,8 @@ function App() {
           <Navigation setThemeMode={setThemeMode} currentTheme={themeMode}>
             <Routes>
               <Route path="/" element={<PrivateRoute />}>
-                <Route path="/profile" element={<Dashboard />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/profile" element={<StudentsHome />} />
               </Route>
 
               <Route path="/home" element={<Home />} />
