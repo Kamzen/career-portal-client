@@ -14,7 +14,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { Button, Stack, Tooltip, styled } from "@mui/material";
+import { Button, Stack, styled } from "@mui/material";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import LoginIcon from "@mui/icons-material/Login";
 import { SignOutButton } from "../SignOutButton";
@@ -27,6 +27,7 @@ import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 import logo2 from "../../images/blue_bg_only_logo.png";
 import Avatar from "@mui/material/Avatar";
+import { useNavigate } from "react-router-dom";
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open"
@@ -116,6 +117,8 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function Navigation({ children, setThemeMode, currentTheme }) {
+  const navigate = useNavigate();
+
   const { data } = useQuery({
     queryKey: ["userInfo"],
     queryFn: () => {
@@ -137,7 +140,10 @@ export default function Navigation({ children, setThemeMode, currentTheme }) {
 
   return (
     <Box
-      sx={{ display: { md: "flex", xs: "block", sm: "block" }, backgroundColor: '#FFFFFF' }}
+      sx={{
+        display: { md: "flex", xs: "block", sm: "block" },
+        backgroundColor: "#FFFFFF"
+      }}
       width="100%"
     >
       <CssBaseline />
@@ -150,7 +156,7 @@ export default function Navigation({ children, setThemeMode, currentTheme }) {
           borderRadius: 5,
           width: "100%",
           backgroundColor: "#FFFFFF",
-          borderColor: 'lightgray',
+          borderColor: "lightgray",
           boxShadow: 0
         }}
       >
@@ -232,28 +238,46 @@ export default function Navigation({ children, setThemeMode, currentTheme }) {
               )}
             </Tooltip> */}
 
-              <Button
-                variant="contained"
-                color="primary"
-                endIcon={<LoginIcon />}
-                sx={{ fontWeight: "bolder" }}
-              >
-                Login
-              </Button>
+              {data ? (
+                <>
+                  <Avatar
+                    variant="circular"
+                    sx={{
+                      bgcolor: "#FFFFFF",
+                      color: "primary.main",
+                      fontWeight: "bolder",
+                      border: 1,
+                      borderColor: "lightgray"
+                    }}
+                  >
+                    T
+                  </Avatar>
+                  <SignOutButton />
+                </>
+              ) : (
+                <>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    endIcon={<LoginIcon />}
+                    sx={{ fontWeight: "bolder" }}
+                    onClick={() => navigate("/login")}
+                  >
+                    Login
+                  </Button>
 
-              <Button
-                variant="outlined"
-                // color="warning"
-                endIcon={<AppRegistrationIcon />}
-                sx={{ fontWeight: "bolder" }}
-              >
-                Rigister
-              </Button>
-
-              <>{data && <SignOutButton />}</>
+                  <Button
+                    variant="outlined"
+                    // color="warning"
+                    endIcon={<AppRegistrationIcon />}
+                    sx={{ fontWeight: "bolder" }}
+                    onClick={() => navigate("/register")}
+                  >
+                    Rigister
+                  </Button>
+                </>
+              )}
             </Stack>
-
-            <>{data && <SignOutButton />}</>
           </Stack>
         </Toolbar>
       </AppBar>
