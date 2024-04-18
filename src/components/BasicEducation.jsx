@@ -37,6 +37,8 @@ const BasicEducation = () => {
     }
   });
 
+  console.log(data)
+
   if (isLoading) {
     return <LinearProgress />;
   }
@@ -52,12 +54,22 @@ const BasicEducation = () => {
   }
 
   return (
-    <Stack minHeight={100} padding={2} spacing={2} component={Paper}>
-      <Typography
-        sx={{ fontSize: 20, textAlign: "center", fontWeight: "bolder" }}
-      >
-        Basic Education
-      </Typography>
+    <Stack
+      height={518}
+      padding={2}
+      spacing={2}
+      component={Paper}
+      sx={{ overflowY: "auto" }}
+    >
+      <Stack direction="row" justifyContent="space-between">
+        <Typography
+          sx={{ fontSize: 20, textAlign: "center", fontWeight: "bolder" }}
+        >
+          Basic Education
+        </Typography>
+        {!data?.basicEducation && <AddEducationModal userId={data.id} />}
+      </Stack>
+
       {data?.basicEducation ? (
         <TableContainer component={Paper}>
           <Table aria-label="simple table">
@@ -125,9 +137,7 @@ const BasicEducation = () => {
           </Table>
         </TableContainer>
       ) : (
-        <Stack direction="row" justifyContent="center">
-          <AddEducationModal userId={data.id} />
-        </Stack>
+        <Alert severity="error">Basic education information required</Alert>
       )}
     </Stack>
   );
