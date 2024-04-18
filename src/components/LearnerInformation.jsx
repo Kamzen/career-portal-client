@@ -89,7 +89,11 @@ export default function AboutUserInfo() {
           sx={{
             fontWeight: "bolder",
             fontSize: 14,
-            textTransform: "capitalize"
+            textTransform: "capitalize",
+            "&::after": {
+              content: `"*"`,
+              color: "red"
+            }
           }}
           {...a11yProps(0)}
         />
@@ -116,7 +120,7 @@ export default function AboutUserInfo() {
           {...a11yProps(2)}
         />
         <Tab
-          label="Certification & Training"
+          label="Certification"
           icon={<CardMembershipIcon />}
           iconPosition="start"
           sx={{
@@ -133,7 +137,11 @@ export default function AboutUserInfo() {
           sx={{
             fontWeight: "bolder",
             fontSize: 14,
-            textTransform: "capitalize"
+            textTransform: "capitalize",
+            "&::after": {
+              content: `"*"`,
+              color: "red"
+            }
           }}
           {...a11yProps(4)}
         />
@@ -144,7 +152,11 @@ export default function AboutUserInfo() {
           sx={{
             fontWeight: "bolder",
             fontSize: 14,
-            textTransform: "capitalize"
+            textTransform: "capitalize",
+            "&::after": {
+              content: `"*"`,
+              color: "red"
+            }
           }}
           {...a11yProps(5)}
         />
