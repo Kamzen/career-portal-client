@@ -22,6 +22,7 @@ import * as Yup from "yup";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import ApiQueries from "../../apiQuries";
 import AlertPopup from "../AlertPopup";
+import EditIcon from "@mui/icons-material/Edit";
 
 export default function EditLearnerBasicInformation({ userInfo }) {
   const [open, setOpen] = React.useState(false);
@@ -40,15 +41,15 @@ export default function EditLearnerBasicInformation({ userInfo }) {
 
   const { mutate, isSuccess, error, isLoading, data, isError } = useMutation({
     mutationFn: (formData) => {
-      return ApiQueries.editBasicInformation(formData)
+      return ApiQueries.editBasicInformation(formData);
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries(['userInfo'])
+      queryClient.invalidateQueries(["userInfo"]);
     },
     onError: (err) => {
-      console.log(err)
+      console.log(err);
     }
-  })
+  });
 
   const careerStatusOptions = [
     {
@@ -81,39 +82,50 @@ export default function EditLearnerBasicInformation({ userInfo }) {
     {
       value: "Black",
       label: "Black"
-    }, 
+    },
     {
       value: "White",
       label: "White"
-    }, 
+    },
     {
       value: "Coloured",
       label: "Coloured"
-    }, 
+    },
     {
       value: "Indian",
       label: "Indian"
     }
-  ]
+  ];
 
   return (
     <div>
-      <Button
-        variant="contained"
-        sx={{ fontSize: 12 }}
+      <IconButton
         onClick={handleClickOpen}
+        sx={{
+          backgroundColor: "primary.main",
+          color: "#FFFFFF",
+          "&:hover": {
+            backgroundColor: "primary.light",
+            color: "#FFFFFF",
+            fontWeight: "bolder"
+          }
+        }}
       >
-        Edit Basic Information
-      </Button>
-      {
-        error && <AlertPopup open={true} message={error.response.data.message} severity='error' />
-      }
-      {
-        isSuccess && !isError && data && <AlertPopup open={true} message={data.message} />
-      }
-      {
-        isError && <AlertPopup open={true} message='Server Error' severity='error' />
-      }
+        <EditIcon />
+      </IconButton>
+      {error && (
+        <AlertPopup
+          open={true}
+          message={error.response.data.message}
+          severity="error"
+        />
+      )}
+      {isSuccess && !isError && data && (
+        <AlertPopup open={true} message={data.message} />
+      )}
+      {isError && (
+        <AlertPopup open={true} message="Server Error" severity="error" />
+      )}
       <Dialog fullScreen={fullScreen} open={open} onClose={handleClose}>
         <Stack
           direction="row"
@@ -128,9 +140,7 @@ export default function EditLearnerBasicInformation({ userInfo }) {
           }}
         >
           <Typography>Edit Basic Information</Typography>
-          {
-            isLoading && <LinearProgress />
-          }
+          {isLoading && <LinearProgress />}
           <IconButton onClick={handleClose}>
             <CloseIcon sx={{ color: "#FFFFFF" }} />
           </IconButton>
@@ -153,12 +163,9 @@ export default function EditLearnerBasicInformation({ userInfo }) {
               firstName: Yup.string().required("FirstName required"),
               lastName: Yup.string().required("LastName required"),
               careerStatus: Yup.string().required("Career status required"),
-              mobileNumber: Yup.string()
-                .required("Mobile number required"),
+              mobileNumber: Yup.string().required("Mobile number required"),
               race: Yup.string().required("Race is required"),
-              disbility: Yup.string().required(
-                "Disability status is required"
-              ),
+              disbility: Yup.string().required("Disability status is required"),
               identificationNumber: Yup.string()
                 .required("ID Number is a required field")
                 .test(
@@ -205,12 +212,11 @@ export default function EditLearnerBasicInformation({ userInfo }) {
                   }
                 )
             })}
-
             onSubmit={(values) => {
-              mutate(values)
+              mutate(values);
             }}
           >
-            {({errors}) => {
+            {({ errors }) => {
               return (
                 <Form>
                   <Grid container spacing={2}>
