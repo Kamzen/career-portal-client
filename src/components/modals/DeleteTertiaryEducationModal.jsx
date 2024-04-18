@@ -50,10 +50,16 @@ export const DeleteTertiaryEducationModal = ({ id }) => {
     <div>
       <Tooltip title="Delete">
         <IconButton
-          color="error"
-          size="large"
-          aria-label="logout"
           onClick={handleClickOpen}
+          sx={{
+            backgroundColor: "error.main",
+            color: "#FFFFFF",
+            "&:hover": {
+              backgroundColor: "error.light",
+              color: "#FFFFFF",
+              fontWeight: "bolder"
+            }
+          }}
         >
           <DeleteForever />
         </IconButton>
