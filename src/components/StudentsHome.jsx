@@ -12,7 +12,6 @@ import {
   useTheme
 } from "@mui/material";
 import React from "react";
-import userPhoto from "../images/295558557_3253413368206040_662268459652945389_n.jpg";
 import PublishIcon from "@mui/icons-material/Publish";
 import { useQuery } from "@tanstack/react-query";
 import ApiQueries from "../apiQuries";
@@ -34,7 +33,7 @@ const StudentsHome = () => {
   });
 
   return (
-    <Box>
+    <Box mt={6} padding={2}>
       <Stack direction={{ md: "row", xs: "column", sm: "column" }} mt={2}>
         <Stack
           width={{ md: "25%", xs: "100%", sm: "100%" }}
@@ -74,14 +73,25 @@ const StudentsHome = () => {
           <Card
             sx={{
               width: "100%",
-              p: 2
+              p: 2,
               // textAlign: "center"
+              height: 615
             }}
             elevation={5}
           >
-            <Typography textAlign="center">User Profile</Typography>
+            {/* <Typography
+              fontWeight="bolder"
+              fontSize={30}
+              // letterSpacing={5}
+              textAlign="center"
+            >
+              Student Profile
+            </Typography> */}
             <Stack spacing={0.5} alignItems="center" justifyContent="center">
-              <img
+              <Box sx={{height: 0, position: 'relative', bottom: 8, left: {md: 120, xs: 160}}}>
+                <EditLearnerBasicInformation userInfo={data} />
+              </Box>
+              {/* <img
                 src={userPhoto}
                 alt=""
                 height={100}
@@ -91,7 +101,25 @@ const StudentsHome = () => {
                   objectPosition: "top left",
                   borderRadius: "50%"
                 }}
-              />
+              /> */}
+              <Box
+                height={100}
+                width={100}
+                borderRadius="50%"
+                border={1}
+                borderColor="lightgray"
+                component={Stack}
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Typography
+                  fontWeight="bolder"
+                  sx={{ color: "primary.main", fontSize: 30 }}
+                >
+                  {data?.firstName?.charAt(0)}
+                  {data?.lastName?.charAt(0)}
+                </Typography>
+              </Box>
               <Typography fontSize={18} fontWeight="bolder" textAlign="center">
                 {data?.firstName &&
                   `${data?.firstName} ${data?.middleName || ""} ${
@@ -108,14 +136,27 @@ const StudentsHome = () => {
               <Typography fontSize={14}>
                 ID : {data?.studentInformation?.identificationNumber || "None"}
               </Typography>
-              <EditLearnerBasicInformation userInfo={data} />
-              <Typography component={Stack} spacing={2} paddingTop={2}>
+
+              <Divider sx={{width: '100%'}} />
+
+              <Stack
+                spacing={2}
+                paddingTop={2}
+                direction="row"
+                justifyContent="space-between"
+              >
                 <Divider sx={{ backgroundColor: "primary.main" }} />
-                <Typography color="red" fontSize={10} textAlign="center">
+                <Typography
+                  color="red"
+                  fontSize={10}
+                  textAlign="center"
+                  width="90"
+                >
                   Please note that your address will determine where you will be
                   placed.
                 </Typography>
-              </Typography>
+                <EditAddressInforModal studentAddress={data?.studentAddress} />
+              </Stack>
               <Typography fontSize={18} fontWeight="bolder">
                 {data.studentAddress && "Address Information"}
               </Typography>
@@ -141,7 +182,6 @@ const StudentsHome = () => {
                 {(data?.studentAddress && data?.studentAddress.manicipality) ||
                   ""}
               </Typography>
-              <EditAddressInforModal studentAddress={data?.studentAddress} />
             </Stack>
           </Card>
         </Stack>
