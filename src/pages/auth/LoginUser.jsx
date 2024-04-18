@@ -33,7 +33,7 @@ const LoginUser = () => {
     onSuccess: (data) => {
       localStorage.setItem("token", data.user.token);
 
-      window.location.href = "http://localhost:3000/";
+      window.location.href = "http://localhost:3000/dashboard";
     },
     onError: (err) => {
       console.log(err);
@@ -49,7 +49,7 @@ const LoginUser = () => {
   });
 
   if (info) {
-    return <Navigate to="/" />;
+    return <Navigate to="/dashboard" />;
   }
 
   return (
@@ -111,7 +111,7 @@ const LoginUser = () => {
                           fontWeight="bolder"
                           fontSize={30}
                           letterSpacing={5}
-                          fontFamily="Roboto, Reenie Beanie"
+                          // fontFamily="Roboto, Reenie Beanie"
                         >
                           Login
                         </Typography>
