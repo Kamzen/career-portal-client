@@ -55,7 +55,7 @@ const PrivateRoute = () => {
   return isSuccess && data ? (
     <Outlet />
   ) : (
-    <Navigate to="/login" />
+    <Navigate to="/home" />
   );
 };
 
