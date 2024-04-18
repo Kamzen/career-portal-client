@@ -8,6 +8,7 @@ import {
   InputLabel,
   LinearProgress,
   Stack,
+  Tooltip,
   Typography,
   useMediaQuery
 } from "@mui/material";
@@ -22,6 +23,7 @@ import * as Yup from "yup";
 import SelectFieldWrapper from "../form-components/SelectFieldWrapper";
 import TextFieldWrapper from "../form-components/TextFieldWrapper";
 import EditIcon from "@mui/icons-material/Edit";
+import AddIcon from "@mui/icons-material/Add";
 
 const AddEducationModal = ({ basicEducation, userId }) => {
   const [open, setOpen] = React.useState(false);
@@ -76,19 +78,44 @@ const AddEducationModal = ({ basicEducation, userId }) => {
   return (
     <div>
       {basicEducation ? (
-        <IconButton onClick={handleClickOpen}>
-          <EditIcon sx={{ color: "primary.main" }} />
-        </IconButton>
+        <Tooltip title="Edit">
+          <IconButton
+            onClick={handleClickOpen}
+            sx={{
+              backgroundColor: "primary.main",
+              color: "#FFFFFF",
+              "&:hover": {
+                backgroundColor: "primary.light",
+                color: "#FFFFFF",
+                fontWeight: "bolder"
+              }
+            }}
+          >
+            <EditIcon />
+          </IconButton>
+        </Tooltip>
       ) : (
-        <Button
-          variant="contained"
-          sx={{ fontSize: 12 }}
-          onClick={handleClickOpen}
-        >
-          Add Education
-        </Button>
+        <Tooltip title="Add">
+          <IconButton
+            onClick={handleClickOpen}
+            color="inherit"
+            sx={{
+              backgroundColor: "primary.main",
+              color: "#FFFFFF",
+              "&:hover": {
+                backgroundColor: "primary.light",
+                color: "#FFFFFF",
+                fontWeight: "bolder"
+              }
+            }}
+          >
+            <AddIcon />
+          </IconButton>
+        </Tooltip>
       )}
-      {error && isError && <AlertPopup open={true} message="Server Error" severity='error' />}
+      {error && isError && (
+        <AlertPopup open={true} message="Server Error" severity="error" />
+      )}
       {isSuccess && data && <AlertPopup open={true} message={data.message} />}
       <Dialog fullScreen={fullScreen} open={open} onClose={handleClose}>
         <Stack
