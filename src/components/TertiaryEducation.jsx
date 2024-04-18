@@ -1,4 +1,5 @@
 import {
+  Alert,
   LinearProgress,
   Paper,
   Stack,
@@ -24,7 +25,7 @@ const TertiaryEducation = () => {
     }
   });
 
-  console.log(data)
+  console.log(data);
 
   if (isLoading) {
     return <LinearProgress />;
@@ -34,18 +35,26 @@ const TertiaryEducation = () => {
 
   return (
     <Stack
-      minHeight={100}
+      height={518}
       padding={2}
-      sx={{ position: "relative" }}
-      component={Paper}
       spacing={2}
+      component={Paper}
+      sx={{ overflowY: "auto" }}
     >
-      <Typography
-        sx={{ fontSize: 20, textAlign: "center", fontWeight: "bolder" }}
+      <Stack
+        // border={1}
+        width="100%"
+        direction="row"
+        justifyContent="space-between"
       >
-        Qualifications
-      </Typography>
-      {data?.tertiaryEducation?.length > 0 && (
+        <Typography
+          sx={{ fontSize: 20, textAlign: "center", fontWeight: "bolder" }}
+        >
+          Qualifications
+        </Typography>
+        <TertiaryEducationModal userId={data?.id} />
+      </Stack>
+      {data?.tertiaryEducation?.length > 0 ? (
         <TableContainer component={Paper}>
           <Table aria-label="simple table">
             <TableHead sx={{ backgroundColor: "background.paper" }}>
@@ -124,15 +133,9 @@ const TertiaryEducation = () => {
           </TableFooter> */}
           </Table>
         </TableContainer>
+      ) : (
+        <Alert severity="info">Tertiary education is optional</Alert>
       )}
-      <Stack
-        // border={1}
-        width="100%"
-        direction="row"
-        justifyContent="center"
-      >
-        <TertiaryEducationModal userId={data?.id} />
-      </Stack>
     </Stack>
   );
 };
