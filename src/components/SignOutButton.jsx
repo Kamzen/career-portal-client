@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-import LogoutTwoToneIcon from "@mui/icons-material/LogoutTwoTone";
+import LogoutIcon from '@mui/icons-material/Logout';
 import Tooltip from "@mui/material/Tooltip";
 
 /**
@@ -56,7 +56,7 @@ export const SignOutButton = () => {
           size="large"
           aria-label="logout"
           onClick={handleClickOpen}>
-          <LogoutTwoToneIcon />
+          <LogoutIcon />
         </IconButton>
       </Tooltip>
       <Dialog
