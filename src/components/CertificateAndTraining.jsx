@@ -1,130 +1,60 @@
 import {
-  Box,
-  Button,
-  Dialog,
-  DialogContent,
-  Grid,
-  IconButton,
-  InputLabel,
+  Alert,
+  LinearProgress,
   Paper,
+  Snackbar,
   Stack,
-  Typography,
-  useMediaQuery
+  Typography
 } from "@mui/material";
 import React from "react";
-
-import CloseIcon from "@mui/icons-material/Close";
-import { useTheme } from "@mui/material/styles";
-import { Form, Formik } from "formik";
-import TextFieldWrapper from "./form-components/TextFieldWrapper";
+import CertificateAndTrainingModal from "./modals/CertificateAndTrainingModal";
+import { useQuery } from "@tanstack/react-query";
+import ApiQueries from "../apiQuries";
 
 const CertificateAndTraining = () => {
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["userInfo"],
+    queryFn: () => {
+      return ApiQueries.userInfo();
+    }
+  });
+
+  if (isLoading) {
+    return <LinearProgress />;
+  }
+
+  if (isError) {
+    return (
+      <Snackbar open={true} autoHideDuration={6000}>
+        <Alert severity="error" sx={{ width: "100%" }}>
+          Error happened fetching your information
+        </Alert>
+      </Snackbar>
+    );
+  }
+
   return (
     <Stack
-      minHeight={100}
+      height={518}
       padding={2}
-      sx={{ position: "relative" }}
+      spacing={2}
       component={Paper}
+      sx={{ overflowY: "auto" }}
     >
       <Stack
         // border={1}
         width="100%"
         direction="row"
-        justifyContent="end"
-        sx={{ position: "absolute", bottom: 0, left: 0, padding: 2 }}
+        justifyContent="space-between"
       >
-        <CertificateAndTrainingModal />
+        <Typography
+          sx={{ fontSize: 20, textAlign: "center", fontWeight: "bolder" }}
+        >
+          Certificate Qualifications
+        </Typography>
+        <CertificateAndTrainingModal userId={data?.id} />
       </Stack>
     </Stack>
-  );
-};
-
-const CertificateAndTrainingModal = () => {
-  const [open, setOpen] = React.useState(false);
-  const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  return (
-    <div>
-      <Button
-        variant="contained"
-        sx={{ fontSize: 12 }}
-        onClick={handleClickOpen}
-      >
-        Add Certificate/Training
-      </Button>
-      <Dialog fullScreen={fullScreen} open={open} onClose={handleClose}>
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-          padding={2}
-          sx={{
-            backgroundColor: "primary.main",
-            height: 40,
-            color: "#FFFFFF",
-            fontWeight: "bolder"
-          }}
-        >
-          <Typography>Add Certificate/Training</Typography>
-          <IconButton onClick={handleClose}>
-            <CloseIcon sx={{ color: "#FFFFFF" }} />
-          </IconButton>
-        </Stack>
-        <DialogContent>
-          <Formik
-            initialValues={{
-              course: "",
-              year: ""
-            }}
-          >
-            {(formik) => {
-              return (
-                <Form>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12} md={6}>
-                      <InputLabel sx={{ mb: 1 }}>Course</InputLabel>
-                      <TextFieldWrapper name="course" label="Course" />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                      <InputLabel sx={{ mb: 1 }}>Year</InputLabel>
-                      <TextFieldWrapper name="year" label="Year" />
-                    </Grid>
-                    <Grid item xs={12} md={12}>
-                      <Box textAlign="end">
-                        <Button
-                          variant="outlined"
-                          autoFocus
-                          onClick={handleClose}
-                        >
-                          Close
-                        </Button>
-                        <Button
-                          variant="contained"
-                          onClick={handleClose}
-                          autoFocus
-                          sx={{ ml: 2, px: 3 }}
-                        >
-                          Add
-                        </Button>
-                      </Box>
-                    </Grid>
-                  </Grid>
-                </Form>
-              );
-            }}
-          </Formik>
-        </DialogContent>
-      </Dialog>
-    </div>
   );
 };
 
