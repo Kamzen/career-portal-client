@@ -8,8 +8,9 @@ import {
   InputLabel,
   LinearProgress,
   Stack,
+  Tooltip,
   Typography,
-  useMediaQuery,
+  useMediaQuery
 } from "@mui/material";
 import React from "react";
 
@@ -24,6 +25,7 @@ import AlertPopup from "../AlertPopup";
 import * as Yup from "yup";
 import YearDatePicker from "../form-components/YearDatePicker";
 import EditIcon from "@mui/icons-material/Edit";
+import AddIcon from "@mui/icons-material/Add";
 
 const TertiaryEducationModal = ({ tertiaryEducation, userId }) => {
   const [open, setOpen] = React.useState(false);
@@ -49,7 +51,7 @@ const TertiaryEducationModal = ({ tertiaryEducation, userId }) => {
     },
     onError: (err) => {
       console.log(err);
-    },
+    }
   });
 
   const editTertiaryEducationQuery = useMutation({
@@ -61,7 +63,7 @@ const TertiaryEducationModal = ({ tertiaryEducation, userId }) => {
     },
     onError: (err) => {
       console.log(err);
-    },
+    }
   });
 
   if (isLoading) {
@@ -71,123 +73,123 @@ const TertiaryEducationModal = ({ tertiaryEducation, userId }) => {
   const qualificationLevelOptions = [
     {
       value: "National Certificate",
-      label: "National Certificate",
+      label: "National Certificate"
     },
     {
       value: "National Diploma",
-      label: "National Diploma",
+      label: "National Diploma"
     },
     {
       value: "National First Degree (Min 360",
-      label: "National First Degree (Min 360",
+      label: "National First Degree (Min 360"
     },
     {
       value: "Post-doctoral Degree",
-      label: "Post-doctoral Degree",
+      label: "Post-doctoral Degree"
     },
     {
       value: "Doctoral Degree",
-      label: "Doctoral Degree",
+      label: "Doctoral Degree"
     },
     {
       value: "Masters Degree",
-      label: "Masters Degree",
+      label: "Masters Degree"
     },
     {
       value: "Professional Qualification",
-      label: "Professional Qualification",
+      label: "Professional Qualification"
     },
     {
       value: "Honours Degree",
-      label: "Honours Degree",
+      label: "Honours Degree"
     },
     {
       value: "National Higher Diploma",
-      label: "National Higher Diploma",
+      label: "National Higher Diploma"
     },
     {
       value: "National Masters Diploma",
-      label: "National Masters Diploma",
+      label: "National Masters Diploma"
     },
     {
       value: "National Higher Certificate",
-      label: "National Higher Certificate",
+      label: "National Higher Certificate"
     },
     {
       value: "Further Diploma",
-      label: "Further Diploma",
+      label: "Further Diploma"
     },
     {
       value: "Post Graduate Diploma",
-      label: "Post Graduate Diploma",
+      label: "Post Graduate Diploma"
     },
     {
       value: "Senior Certificate",
-      label: "Senior Certificate",
+      label: "Senior Certificate"
     },
     {
       value: "Qual at Nat Sen Cert level",
-      label: "Qual at Nat Sen Cert level",
+      label: "Qual at Nat Sen Cert level"
     },
     {
       value: "Apprenticeship / Trade Cert",
-      label: "Apprenticeship / Trade Cert",
+      label: "Apprenticeship / Trade Cert"
     },
     {
       value: "Post Grad B Degree (phasing out) e.g. B Ed",
-      label: "Post Grad B Degree (phasing out) e.g. B Ed",
+      label: "Post Grad B Degree (phasing out) e.g. B Ed"
     },
     {
       value: "Post Diploma Diploma (phasing out)",
-      label: "Post Diploma Diploma (phasing out)",
+      label: "Post Diploma Diploma (phasing out)"
     },
     {
       value: "Post-basic Diploma [mainly applies to Nursing]",
-      label: "Post-basic Diploma [mainly applies to Nursing]",
+      label: "Post-basic Diploma [mainly applies to Nursing]"
     },
     {
       value: "Further Ed and Training Cert (FETC)",
-      label: "Further Ed and Training Cert (FETC)",
+      label: "Further Ed and Training Cert (FETC)"
     },
     {
       value: "National First Degree (Min 480)",
-      label: "National First Degree (Min 480)",
+      label: "National First Degree (Min 480)"
     },
     {
       value: "Schl below SenC: (not full qualification)",
-      label: "Schl below SenC: (not full qualification)",
+      label: "Schl below SenC: (not full qualification)"
     },
     {
       value: "Advanced Certificate",
-      label: "Advanced Certificate",
+      label: "Advanced Certificate"
     },
     {
       value: "Advanced Diploma",
-      label: "Advanced Diploma",
+      label: "Advanced Diploma"
     },
     {
       value: "Higher Certificate",
-      label: "Higher Certificate",
+      label: "Higher Certificate"
     },
     {
       value: "Occupational Certificate",
-      label: "Occupational Certificate",
-    },
+      label: "Occupational Certificate"
+    }
   ];
 
   const completionStatus = [
     {
       value: "In Progress",
-      label: "In Progress",
+      label: "In Progress"
     },
     {
       value: "Pending",
-      label: "Pending",
+      label: "Pending"
     },
     {
       value: "Completed",
-      label: "Completed",
-    },
+      label: "Completed"
+    }
   ];
 
   return (
@@ -221,17 +223,40 @@ const TertiaryEducationModal = ({ tertiaryEducation, userId }) => {
         )}
 
       {tertiaryEducation ? (
-        <IconButton color="secondary" onClick={() => setOpen(true)}>
-          <EditIcon />
-        </IconButton>
+        <Tooltip title="Edit">
+          <IconButton
+            onClick={handleClickOpen}
+            sx={{
+              backgroundColor: "primary.main",
+              color: "#FFFFFF",
+              "&:hover": {
+                backgroundColor: "primary.light",
+                color: "#FFFFFF",
+                fontWeight: "bolder"
+              }
+            }}
+          >
+            <EditIcon />
+          </IconButton>
+        </Tooltip>
       ) : (
-        <Button
-          variant="contained"
-          sx={{ fontSize: 12 }}
-          onClick={handleClickOpen}
-        >
-          Add Qualification
-        </Button>
+        <Tooltip title="Add">
+          <IconButton
+            onClick={handleClickOpen}
+            color="inherit"
+            sx={{
+              backgroundColor: "primary.main",
+              color: "#FFFFFF",
+              "&:hover": {
+                backgroundColor: "primary.light",
+                color: "#FFFFFF",
+                fontWeight: "bolder"
+              }
+            }}
+          >
+            <AddIcon />
+          </IconButton>
+        </Tooltip>
       )}
       <Dialog fullScreen={fullScreen} open={open} onClose={handleClose}>
         <Stack
@@ -243,7 +268,7 @@ const TertiaryEducationModal = ({ tertiaryEducation, userId }) => {
             backgroundColor: "primary.main",
             height: 40,
             color: "#FFFFFF",
-            fontWeight: "bolder",
+            fontWeight: "bolder"
           }}
         >
           <Typography>
@@ -263,7 +288,7 @@ const TertiaryEducationModal = ({ tertiaryEducation, userId }) => {
               institution: tertiaryEducation?.institution || "",
               startYear: tertiaryEducation?.startYear || "",
               endYear: tertiaryEducation?.endYear || "",
-              status: tertiaryEducation?.status || "",
+              status: tertiaryEducation?.status || ""
             }}
             validationSchema={Yup.object().shape({
               educationLevel: Yup.string().required(
@@ -277,9 +302,8 @@ const TertiaryEducationModal = ({ tertiaryEducation, userId }) => {
               status: Yup.string().required("Status required"),
               endYear: Yup.string().when("status", {
                 is: "Completed",
-                then: (schema) =>
-                  Yup.date().required("Year completed Required"),
-              }),
+                then: (schema) => Yup.date().required("Year completed Required")
+              })
             })}
             onSubmit={(values) => {
               if (tertiaryEducation) {
