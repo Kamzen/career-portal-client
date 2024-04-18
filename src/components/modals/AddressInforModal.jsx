@@ -4,7 +4,15 @@ import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
-import { Alert, Box, Grid, IconButton, LinearProgress, Stack, Typography } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Grid,
+  IconButton,
+  LinearProgress,
+  Stack,
+  Typography
+} from "@mui/material";
 import { Form, Formik } from "formik";
 import TextFieldWrapper from "../form-components/TextFieldWrapper";
 import CloseIcon from "@mui/icons-material/Close";
@@ -13,6 +21,8 @@ import ApiQueries from "../../apiQuries";
 import * as Yup from "yup";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import AlertPopup from "../AlertPopup";
+import EditIcon from "@mui/icons-material/Edit";
+import AddIcon from "@mui/icons-material/Add";
 
 export default function EditAddressInforModal({ studentAddress }) {
   const [addressInfor, setAddressInfor] = React.useState(null);
@@ -34,32 +44,52 @@ export default function EditAddressInforModal({ studentAddress }) {
   const { mutate, isLoading, error, data, isSuccess } = useMutation({
     mutationFn: (formData) => {
       if (studentAddress) {
-        return ApiQueries.editAddress(formData)
+        return ApiQueries.editAddress(formData);
       } else {
         return ApiQueries.addAddress(formData);
       }
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries(['userInfo'])
-      handleClose()
+      queryClient.invalidateQueries(["userInfo"]);
+      handleClose();
     }
   });
 
   return (
     <div>
-      <Button
-        variant="contained"
-        sx={{ fontSize: 12 }}
-        onClick={handleClickOpen}
-      >
-        {studentAddress
-          ? "Edit Address Information"
-          : "Add Address Information"}
-      </Button>
+      {!studentAddress ? (
+        <IconButton
+          onClick={handleClickOpen}
+          sx={{
+            backgroundColor: "primary.main",
+            color: "#FFFFFF",
+            "&:hover": {
+              backgroundColor: "primary.light",
+              color: "#FFFFFF",
+              fontWeight: "bolder"
+            }
+          }}
+        >
+          <AddIcon />
+        </IconButton>
+      ) : (
+        <IconButton
+          onClick={handleClickOpen}
+          sx={{
+            backgroundColor: "primary.main",
+            color: "#FFFFFF",
+            "&:hover": {
+              backgroundColor: "primary.light",
+              color: "#FFFFFF",
+              fontWeight: "bolder"
+            }
+          }}
+        >
+          <EditIcon />
+        </IconButton>
+      )}
 
-      {
-        isSuccess && <AlertPopup open={true} message={data.message} />
-      }
+      {isSuccess && <AlertPopup open={true} message={data.message} />}
       <Dialog fullScreen={fullScreen} open={open} onClose={handleClose}>
         <Stack
           direction="row"
@@ -78,12 +108,12 @@ export default function EditAddressInforModal({ studentAddress }) {
               ? "Edit Address Information"
               : "Add Address Information"}
           </Typography>
-          {
-            isLoading && <LinearProgress />
-          }
-          {
-            error && <Alert severity="error" color="error">{error.response.data.message}</Alert>
-          }
+          {isLoading && <LinearProgress />}
+          {error && (
+            <Alert severity="error" color="error">
+              {error.response.data.message}
+            </Alert>
+          )}
           <IconButton onClick={handleClose}>
             <CloseIcon sx={{ color: "#FFFFFF" }} />
           </IconButton>
