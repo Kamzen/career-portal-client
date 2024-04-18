@@ -25,7 +25,7 @@ const YearDatePicker = ({ name, label, ...otherProps }) => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <FormControl fullWidth size="small">
+      <FormControl fullWidth>
         <DatePicker
           views={["year"]}
           label={label}
@@ -33,9 +33,7 @@ const YearDatePicker = ({ name, label, ...otherProps }) => {
           onChange={(date) => {
             setFieldValue(name, new Date(date).getFullYear().toString());
           }}
-          renderInput={(params) => (
-            <TextField {...params} {...configError} size="small" />
-          )}
+          renderInput={(params) => <TextField {...params} {...configError} />}
         />
       </FormControl>
     </LocalizationProvider>
