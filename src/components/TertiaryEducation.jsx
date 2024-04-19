@@ -57,28 +57,49 @@ const TertiaryEducation = () => {
       {data?.tertiaryEducation?.length > 0 ? (
         <TableContainer component={Paper}>
           <Table aria-label="simple table">
-            <TableHead sx={{ backgroundColor: "background.paper" }}>
+            <TableHead>
               <TableRow>
-                <TableCell align="center" sx={{ fontWeight: "bolder" }}>
+                <TableCell
+                  align="center"
+                  sx={{ fontWeight: "bolder", color: "#FFFFFF" }}
+                >
                   Level
                 </TableCell>
-                <TableCell align="center" sx={{ fontWeight: "bolder" }}>
+                <TableCell
+                  align="center"
+                  sx={{ fontWeight: "bolder", color: "#FFFFFF" }}
+                >
                   Field Of Study
                 </TableCell>
 
-                <TableCell align="center" sx={{ fontWeight: "bolder" }}>
+                <TableCell
+                  align="center"
+                  sx={{ fontWeight: "bolder", color: "#FFFFFF" }}
+                >
                   Institution
                 </TableCell>
-                <TableCell align="center" sx={{ fontWeight: "bolder" }}>
+                <TableCell
+                  align="center"
+                  sx={{ fontWeight: "bolder", color: "#FFFFFF" }}
+                >
                   Year Started
                 </TableCell>
-                <TableCell align="center" sx={{ fontWeight: "bolder" }}>
+                <TableCell
+                  align="center"
+                  sx={{ fontWeight: "bolder", color: "#FFFFFF" }}
+                >
                   Status
                 </TableCell>
-                <TableCell align="center" sx={{ fontWeight: "bolder" }}>
+                <TableCell
+                  align="center"
+                  sx={{ fontWeight: "bolder", color: "#FFFFFF" }}
+                >
                   Year Completed
                 </TableCell>
-                <TableCell align="center" sx={{ fontWeight: "bolder" }}>
+                <TableCell
+                  align="center"
+                  sx={{ fontWeight: "bolder", color: "#FFFFFF" }}
+                >
                   Action
                 </TableCell>
               </TableRow>
