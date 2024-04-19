@@ -17,7 +17,15 @@ export const themeDark = createTheme({
           borderRadius: "5px"
         }
       }
+    },
+    MuiTableHead: {
+      styleOverrides: {
+        root: {
+          // backgroundColor: "#163683"
+        }
+      }
     }
+
     // MuiButton: {
     //   styleOverrides: {
     //     root: {
@@ -72,6 +80,13 @@ export const themeLight = createTheme({
       styleOverrides: {
         root: {
           height: 37
+        }
+      }
+    },
+    MuiTableHead: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "#163683"
         }
       }
     }
