@@ -123,6 +123,23 @@ const ApiQueries = {
 
     return resp?.data;
   },
+
+  editCertification: async (formData, id) => {
+    const resp = await axiosInstance.put(
+      `/student/editCertification/${id}`,
+      formData
+    );
+
+    return resp?.data;
+  },
+
+  deleteCertification: async (id) => {
+    const resp = await axiosInstance.delete(
+      `/student/deleteCertification/${id}`
+    );
+
+    return resp?.data;
+  }
 };
 
 export default ApiQueries;
