@@ -19,7 +19,7 @@ const PrivateRoute = () => {
     queryKey: ["userInfo"],
     queryFn: async () => {
       return await ApiQueries.userInfo();
-    },
+    }
     // staleTime: 1000 * 60 * 60 * 24
   });
 
@@ -49,14 +49,10 @@ const PrivateRoute = () => {
   }
 
   if (error?.response.status === 401) {
-    window.location.href = `http://localhost:3000/home`
+    window.location.href = `${process.env.REACT_APP_PUBLIC_URL}/home`;
   }
 
-  return isSuccess && data ? (
-    <Outlet />
-  ) : (
-    <Navigate to="/home" />
-  );
+  return isSuccess && data ? <Outlet /> : <Navigate to="/home" />;
 };
 
 export default PrivateRoute;
