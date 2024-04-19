@@ -20,23 +20,42 @@ import { useTheme } from "@mui/material/styles";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import YearDatePicker from "../form-components/YearDatePicker";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import ApiQueries from "../../apiQuries";
 import * as Yup from "yup";
+import AlertPopup from "../AlertPopup";
 
 const CertificateAndTrainingModal = ({ userId, certificate }) => {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
+  const queryClient = useQueryClient();
+
   const addCertificateMutation = useMutation({
     mutationFn: async (formData) => {
-      return ApiQueries.addCertification(formData);
+      return await ApiQueries.addCertification(formData);
     },
-
-    onSuccess: (data) => {},
+    onSuccess: (data) => {
+      setTimeout(() => {
+        queryClient.invalidateQueries(["userInfo"]);
+        handleClose();
+      }, 2000);
+    },
     onError: (err) => {
       console.log(err);
+    }
+  });
+
+  const editCertificationMutation = useMutation({
+    mutationFn: async (formData, id) => {
+      return await ApiQueries.editCertification(id);
+    },
+    onSuccess: (data) => {
+      setTimeout(() => {
+        queryClient.invalidateQueries(["userInfo"]);
+        handleClose();
+      }, 2000);
     }
   });
 
@@ -86,6 +105,39 @@ const CertificateAndTrainingModal = ({ userId, certificate }) => {
           </IconButton>
         </Tooltip>
       )}
+
+      {addCertificateMutation.error && addCertificateMutation.isError && (
+        <AlertPopup
+          open={true}
+          message={
+            addCertificateMutation.error?.response?.data?.message ||
+            "Internal server error"
+          }
+          severity="error"
+        />
+      )}
+      {addCertificateMutation.isSuccess && addCertificateMutation.data && (
+        <AlertPopup open={true} message={addCertificateMutation.data.message} />
+      )}
+
+      {editCertificationMutation.error && editCertificationMutation.isError && (
+        <AlertPopup
+          open={true}
+          message={
+            editCertificationMutation.error?.response?.data?.message ||
+            "Internal server error"
+          }
+          severity="error"
+        />
+      )}
+      {editCertificationMutation.isSuccess &&
+        editCertificationMutation.data && (
+          <AlertPopup
+            open={true}
+            message={editCertificationMutation.data.message}
+          />
+        )}
+
       <Dialog fullScreen={fullScreen} open={open} onClose={handleClose}>
         <Stack
           direction="row"
@@ -99,7 +151,9 @@ const CertificateAndTrainingModal = ({ userId, certificate }) => {
             fontWeight: "bolder"
           }}
         >
-          <Typography>Add Certification</Typography>
+          <Typography>
+            {certificate ? "Edit Certification" : "Add Certification"}
+          </Typography>
           <IconButton onClick={handleClose}>
             <CloseIcon sx={{ color: "#FFFFFF" }} />
           </IconButton>
@@ -107,17 +161,22 @@ const CertificateAndTrainingModal = ({ userId, certificate }) => {
         <DialogContent>
           <Formik
             initialValues={{
-              userId: userId || "",
-              course: "",
-              year: "",
-              certificateFile: ""
+              userId: certificate?.userId || userId || "",
+              certificateId: certificate?.id || "",
+              course: certificate?.course || "",
+              year: certificate?.year || "",
+              certificateFile: certificate?.certificateFileName || ""
             }}
             onSubmit={(values) => {
               const formData = new FormData();
               for (const [key, value] of Object.entries(values)) {
                 formData.append(key, value);
               }
-              addCertificateMutation.mutate(formData);
+              if (certificate) {
+                editCertificationMutation.mutate(formData, values.id);
+              } else {
+                addCertificateMutation.mutate(formData);
+              }
             }}
             validationSchema={Yup.object().shape({
               course: Yup.string().required("Course required"),
@@ -170,13 +229,23 @@ const CertificateAndTrainingModal = ({ userId, certificate }) => {
                         <Button variant="outlined" onClick={handleClose}>
                           Close
                         </Button>
-                        <Button
-                          variant="contained"
-                          type="submit"
-                          sx={{ ml: 2, px: 3 }}
-                        >
-                          Add
-                        </Button>
+                        {certificate ? (
+                          <Button
+                            variant="contained"
+                            type="submit"
+                            sx={{ ml: 2, px: 3 }}
+                          >
+                            Update
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="contained"
+                            type="submit"
+                            sx={{ ml: 2, px: 3 }}
+                          >
+                            Add
+                          </Button>
+                        )}
                       </Box>
                     </Grid>
                   </Grid>
