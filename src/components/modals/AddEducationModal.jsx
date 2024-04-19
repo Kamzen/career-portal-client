@@ -42,6 +42,7 @@ const AddEducationModal = ({ basicEducation, userId }) => {
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries(["userInfo"]);
+      handleClose()
     },
     onError: (err) => {
       console.log(err);
