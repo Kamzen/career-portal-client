@@ -131,7 +131,7 @@ export default function AboutUserInfo() {
           {...a11yProps(3)}
         />
         <Tab
-          label="Attachment"
+          label="Documents"
           icon={<AttachFileIcon />}
           iconPosition="start"
           sx={{
