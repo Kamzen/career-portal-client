@@ -124,9 +124,9 @@ const ApiQueries = {
     return resp?.data;
   },
 
-  editCertification: async (formData, id) => {
+  editCertification: async (formData) => {
     const resp = await axiosInstance.put(
-      `/student/editCertification/${id}`,
+      `/student/editCertificate/`,
       formData
     );
 
@@ -135,7 +135,7 @@ const ApiQueries = {
 
   deleteCertification: async (id) => {
     const resp = await axiosInstance.delete(
-      `/student/deleteCertification/${id}`
+      `/student/deleteCertificate/${id}`
     );
 
     return resp?.data;
