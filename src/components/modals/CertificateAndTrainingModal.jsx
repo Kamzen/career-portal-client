@@ -37,10 +37,8 @@ const CertificateAndTrainingModal = ({ userId, certificate }) => {
       return await ApiQueries.addCertification(formData);
     },
     onSuccess: (data) => {
-      setTimeout(() => {
-        queryClient.invalidateQueries(["userInfo"]);
-        handleClose();
-      }, 2000);
+      queryClient.invalidateQueries(["userInfo"]);
+      handleClose();
     },
     onError: (err) => {
       console.log(err);
@@ -48,14 +46,12 @@ const CertificateAndTrainingModal = ({ userId, certificate }) => {
   });
 
   const editCertificationMutation = useMutation({
-    mutationFn: async (formData, id) => {
-      return await ApiQueries.editCertification(id);
+    mutationFn: async (formData) => {
+      return await ApiQueries.editCertification(formData);
     },
     onSuccess: (data) => {
-      setTimeout(() => {
-        queryClient.invalidateQueries(["userInfo"]);
-        handleClose();
-      }, 2000);
+      queryClient.invalidateQueries(["userInfo"]);
+      handleClose();
     }
   });
 
@@ -66,6 +62,8 @@ const CertificateAndTrainingModal = ({ userId, certificate }) => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  // console.log(certificate)
 
   return (
     <div>
@@ -172,8 +170,9 @@ const CertificateAndTrainingModal = ({ userId, certificate }) => {
               for (const [key, value] of Object.entries(values)) {
                 formData.append(key, value);
               }
+
               if (certificate) {
-                editCertificationMutation.mutate(formData, values.id);
+                editCertificationMutation.mutate(formData);
               } else {
                 addCertificateMutation.mutate(formData);
               }
@@ -184,7 +183,8 @@ const CertificateAndTrainingModal = ({ userId, certificate }) => {
             })}
             enableReinitialize
           >
-            {(formik) => {
+            {({ errors }) => {
+              // console.log(errors)
               return (
                 <Form>
                   <Grid container spacing={2}>
