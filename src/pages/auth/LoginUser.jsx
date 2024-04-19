@@ -19,7 +19,6 @@ import bgImg from "../../images/Untitled-2.bcecf2a1201a8f598c47.png";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import LoginIcon from "@mui/icons-material/Login";
 
-
 const LoginUser = () => {
   const navigate = useNavigate();
 
@@ -33,7 +32,7 @@ const LoginUser = () => {
     onSuccess: (data) => {
       localStorage.setItem("token", data.user.token);
 
-      window.location.href = "http://localhost:3000/dashboard";
+      window.location.href = `${process.env.REACT_APP_PUBLIC_URL}/dashboard`;
     },
     onError: (err) => {
       console.log(err);
@@ -70,7 +69,13 @@ const LoginUser = () => {
         paddingX={10}
         // paddingY={10}
       >
-        <Stack width="50%" spacing={2} alignItems="center" minHeight='86vh' justifyContent='center'>
+        <Stack
+          width="50%"
+          spacing={2}
+          alignItems="center"
+          minHeight="86vh"
+          justifyContent="center"
+        >
           {error?.response?.status === 404 && (
             <Alert severity="error" color="error" sx={{ width: "100%" }}>
               {error?.response?.data?.message}
