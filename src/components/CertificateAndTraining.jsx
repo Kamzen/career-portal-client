@@ -79,7 +79,7 @@ const CertificateAndTraining = () => {
         </Typography>
         <CertificateAndTrainingModal userId={data?.id} />
       </Stack>
-      {data?.basicEducation ? (
+      {data?.certificates?.length > 0 ? (
         <TableContainer component={Paper}>
           <Table aria-label="simple table">
             <TableHead>
@@ -136,7 +136,7 @@ const CertificateAndTraining = () => {
                       {certificate.year}
                     </TableCell>
                     <TableCell align="center">
-                      {certificate.certificateFileName}
+                      {certificate.originalFileName}
                     </TableCell>
                     <TableCell align="center">
                       <Stack
@@ -154,6 +154,12 @@ const CertificateAndTraining = () => {
                                 color: "#FFFFFF",
                                 fontWeight: "bolder"
                               }
+                            }}
+                            onClick={() => {
+                              window.open(
+                                `${process.env.REACT_APP_API_URL}/student/downloadCertificate?filename=${certificate.certificateFileName}`,
+                                "_blank"
+                              );
                             }}
                           >
                             <Download />
@@ -193,7 +199,7 @@ const CertificateAndTraining = () => {
           </Table>
         </TableContainer>
       ) : (
-        <Alert severity="error">Basic education information required</Alert>
+        <Alert severity="info">Basic education information is optional</Alert>
       )}
     </Stack>
   );
