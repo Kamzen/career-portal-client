@@ -37,8 +37,6 @@ const BasicEducation = () => {
     }
   });
 
-  console.log(data)
-
   if (isLoading) {
     return <LinearProgress />;
   }
@@ -73,21 +71,36 @@ const BasicEducation = () => {
       {data?.basicEducation ? (
         <TableContainer component={Paper}>
           <Table aria-label="simple table">
-            <TableHead sx={{ backgroundColor: "background.paper" }}>
+            <TableHead>
               <TableRow>
-                <TableCell align="center" sx={{ fontWeight: "bolder" }}>
+                <TableCell
+                  align="center"
+                  sx={{ fontWeight: "bolder", color: "#FFFFFF" }}
+                >
                   Highest Grade Passed
                 </TableCell>
-                <TableCell align="center" sx={{ fontWeight: "bolder" }}>
+                <TableCell
+                  align="center"
+                  sx={{ fontWeight: "bolder", color: "#FFFFFF" }}
+                >
                   High School Name
                 </TableCell>
-                <TableCell align="center" sx={{ fontWeight: "bolder" }}>
+                <TableCell
+                  align="center"
+                  sx={{ fontWeight: "bolder", color: "#FFFFFF" }}
+                >
                   City
                 </TableCell>
-                <TableCell align="center" sx={{ fontWeight: "bolder" }}>
+                <TableCell
+                  align="center"
+                  sx={{ fontWeight: "bolder", color: "#FFFFFF" }}
+                >
                   Province
                 </TableCell>
-                <TableCell align="center" sx={{ fontWeight: "bolder" }}>
+                <TableCell
+                  align="center"
+                  sx={{ fontWeight: "bolder", color: "#FFFFFF" }}
+                >
                   Action
                 </TableCell>
               </TableRow>
