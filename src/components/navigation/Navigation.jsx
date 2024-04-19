@@ -14,7 +14,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { Button, Stack, styled } from "@mui/material";
+import { Button, Stack, Tooltip, styled } from "@mui/material";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import LoginIcon from "@mui/icons-material/Login";
 import { SignOutButton } from "../SignOutButton";
@@ -28,7 +28,8 @@ import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 import logo2 from "../../images/blue_bg_only_logo.png";
 import Avatar from "@mui/material/Avatar";
 import { useNavigate } from "react-router-dom";
-
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open"
 })(({ theme, open }) => ({
@@ -142,7 +143,7 @@ export default function Navigation({ children, setThemeMode, currentTheme }) {
     <Box
       sx={{
         display: { md: "flex", xs: "block", sm: "block" },
-        backgroundColor: "#FFFFFF"
+        backgroundColor: currentTheme && "#FFFFFF"
       }}
       width="100%"
     >
@@ -152,11 +153,11 @@ export default function Navigation({ children, setThemeMode, currentTheme }) {
         open={open}
         color="default"
         sx={{
-          border: 1,
-          borderRadius: 5,
+          border: currentTheme && 1,
+          borderRadius: currentTheme ? 5 : 0,
           width: "100%",
-          backgroundColor: "#FFFFFF",
-          borderColor: "lightgray",
+          backgroundColor: currentTheme && "#FFFFFF",
+          borderColor: currentTheme && "lightgray",
           boxShadow: 0
         }}
       >
@@ -240,6 +241,17 @@ export default function Navigation({ children, setThemeMode, currentTheme }) {
 
               {data ? (
                 <>
+                  <Tooltip title="Set Theme">
+                    {currentTheme ? (
+                      <IconButton onClick={() => setThemeMode(!currentTheme)}>
+                        <DarkModeIcon />
+                      </IconButton>
+                    ) : (
+                      <IconButton onClick={() => setThemeMode(!currentTheme)}>
+                        <LightModeIcon />
+                      </IconButton>
+                    )}
+                  </Tooltip>
                   <Avatar
                     variant="circular"
                     sx={{
@@ -250,7 +262,7 @@ export default function Navigation({ children, setThemeMode, currentTheme }) {
                       borderColor: "lightgray"
                     }}
                   >
-                    T
+                    {data?.firstName?.charAt(0)}
                   </Avatar>
                   <SignOutButton />
                 </>
