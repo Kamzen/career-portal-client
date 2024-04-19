@@ -35,7 +35,7 @@ export const DeleteCertificateModal = ({ id }) => {
 
   const { mutate, isError, error, isLoading, isSuccess, data } = useMutation({
     mutationFn: async (id) => {
-      return ApiQueries.deleteProfessionalSkill(id);
+      return ApiQueries.deleteCertification(id);
     },
     onSuccess: (data) => {
       setTimeout(() => {
