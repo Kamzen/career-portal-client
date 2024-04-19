@@ -56,20 +56,32 @@ const ProfessionalsSkills = () => {
       {data?.skills?.length > 0 ? (
         <TableContainer component={Paper}>
           <Table aria-label="simple table">
-            <TableHead sx={{ backgroundColor: "background.paper" }}>
+            <TableHead>
               <TableRow>
-                <TableCell align="center" sx={{ fontWeight: "bolder" }}>
+                <TableCell
+                  align="center"
+                  sx={{ fontWeight: "bolder", color: "#FFFFFF" }}
+                >
                   No#
                 </TableCell>
-                <TableCell align="center" sx={{ fontWeight: "bolder" }}>
+                <TableCell
+                  align="center"
+                  sx={{ fontWeight: "bolder", color: "#FFFFFF" }}
+                >
                   Skill
                 </TableCell>
 
-                <TableCell align="center" sx={{ fontWeight: "bolder" }}>
+                <TableCell
+                  align="center"
+                  sx={{ fontWeight: "bolder", color: "#FFFFFF" }}
+                >
                   Skill Level
                 </TableCell>
 
-                <TableCell align="center" sx={{ fontWeight: "bolder" }}>
+                <TableCell
+                  align="center"
+                  sx={{ fontWeight: "bolder", color: "#FFFFFF" }}
+                >
                   Action
                 </TableCell>
               </TableRow>
