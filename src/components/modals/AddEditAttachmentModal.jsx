@@ -20,7 +20,7 @@ import { useTheme } from "@mui/material/styles";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 
-const AddEditAttachmentModal = ({ attachment, userId }) => {
+const AddEditAttachmentModal = ({ attachment }) => {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -84,7 +84,7 @@ const AddEditAttachmentModal = ({ attachment, userId }) => {
             fontWeight: "bolder"
           }}
         >
-          <Typography>Add Attachment</Typography>
+          <Typography>Add Documents</Typography>
           <IconButton onClick={handleClose}>
             <CloseIcon sx={{ color: "#FFFFFF" }} />
           </IconButton>
